@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "build": "wp-scripts build && node scripts/copy-assets.js",
+    "version": "node scripts/sync-version.js && git add src/index.js",
     "start": "wp-scripts start",
     "lint:js": "wp-scripts lint-js src",
     "lint:css": "wp-scripts lint-style \"src/**/*.css\"",
