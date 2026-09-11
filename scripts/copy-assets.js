@@ -84,8 +84,10 @@ const readAsset = ( name ) => {
 		return null;
 	}
 	const body = fs.readFileSync( file, 'utf8' );
-	const version = ( body.match( /'version' => '([^']+)'/ ) || [] )[ 1 ] || null;
-	const deps = ( body.match( /'dependencies' => array\(([^)]*)\)/ ) || [] )[ 1 ];
+	const version =
+		( body.match( /'version' => '([^']+)'/ ) || [] )[ 1 ] || null;
+	const deps = ( body.match( /'dependencies' => array\(([^)]*)\)/ ) ||
+		[] )[ 1 ];
 	return {
 		version,
 		dependencies: deps
