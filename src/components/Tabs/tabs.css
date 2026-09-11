@@ -1,0 +1,94 @@
+/**
+ * Tabs — تب‌ها
+ *
+ * دو حالت دارد و هر دو لازم‌اند:
+ *
+ *   ۱) تبِ لینکی — وقتی هر تب یک صفحهٔ جدا در پیشخوان است (`add_submenu_page`).
+ *      اینجا تب باید `<a href>` باشد نه دکمه، وگرنه کاربر نمی‌تواند با کلیک
+ *      میانی در تب جدید بازش کند و نشانی صفحه هم قابل اشتراک نیست.
+ *
+ *   ۲) تبِ درون‌صفحه‌ای — وقتی محتوا بدون بارگذاری دوباره عوض می‌شود.
+ *
+ * نوار زیر تب فعال، ضخیم و مستقیم است — نه خط نازک گرد.
+ */
+
+.rk-tabs {
+	display: flex;
+	align-items: stretch;
+	gap: var(--rk-space-05);
+	margin-block-end: var(--rk-space-3);
+	border-block-end: var(--rk-border-width) solid var(--rk-color-border);
+	overflow-x: auto;
+}
+
+.rk-tabs__item {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background: none;
+	border: 0;
+
+	/* نوار پایین همیشه هست، فقط رنگش عوض می‌شود — وگرنه با فعال‌شدن تب،
+	   متن یک پیکسل بالا و پایین می‌پرد. */
+	border-block-end: var(--rk-border-width-strong) solid transparent;
+	margin-block-end: calc(-1 * var(--rk-border-width));
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-muted);
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		color var(--rk-duration-fast) var(--rk-easing),
+		border-color var(--rk-duration-fast) var(--rk-easing);
+}
+
+.rk-tabs__item[aria-current="page"],
+.rk-tabs__item[aria-selected="true"] {
+	color: var(--rk-color-text-brand);
+	border-block-end-color: var(--rk-color-brand-700);
+	font-weight: var(--rk-font-weight-bold);
+}
+
+.rk-tabs__item:disabled,
+.rk-tabs__item[aria-disabled="true"] {
+	color: var(--rk-color-text-disabled);
+	cursor: not-allowed;
+}
+
+.rk-tabs__item:hover:not([aria-current="page"]):not([aria-selected="true"]) {
+	color: var(--rk-color-text-strong);
+	border-block-end-color: var(--rk-color-border-strong);
+}
+
+/* شمارنده کنار عنوان تب — «گزارش‌ها ۱۲» */
+.rk-tabs__count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--rk-space-2);
+	height: var(--rk-space-2);
+	padding: var(--rk-space-0) var(--rk-space-05);
+	background-color: var(--rk-color-neutral-100);
+	border-radius: var(--rk-radius-sm);
+	font-size: var(--rk-font-size-2xs);
+	font-weight: var(--rk-font-weight-medium);
+	color: var(--rk-color-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.rk-tabs__item[aria-current="page"] .rk-tabs__count,
+.rk-tabs__item[aria-selected="true"] .rk-tabs__count {
+	background-color: var(--rk-color-brand-50);
+	color: var(--rk-color-brand-700);
+}
+
+/* شمارندهٔ هشدار — تعداد خطاهای خوانده‌نشده */
+.rk-tabs__count--error {
+	background-color: var(--rk-color-error-bg);
+	color: var(--rk-color-error);
+}

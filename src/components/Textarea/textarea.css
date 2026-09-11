@@ -1,0 +1,101 @@
+/**
+ * Textarea — ناحیهٔ متن چندخطی
+ * روی `TextareaControl` بستهٔ ‎@wordpress/components‎ سوار می‌شود.
+ */
+
+.rk-textarea {
+	display: block;
+	margin-block-end: var(--rk-space-2);
+}
+
+.rk-textarea:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+.rk-textarea .components-base-control__label,
+.rk-textarea .rk-textarea__label {
+	display: block;
+	margin-block-end: var(--rk-space-05);
+	padding: var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	text-transform: none;
+}
+
+.rk-textarea .components-textarea-control__input,
+.rk-textarea .rk-textarea__input,
+.rk-textarea textarea {
+	display: block;
+	width: 100%;
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-1);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-inset);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-regular);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+	resize: vertical;
+	transition:
+		border-color var(--rk-duration-fast) var(--rk-easing),
+		box-shadow var(--rk-duration-fast) var(--rk-easing);
+}
+
+/* قالب پیامک، JSON، الگوی متنی — چپ‌به‌راست و تک‌عرض */
+.rk-textarea--mono .components-textarea-control__input,
+.rk-textarea--mono .rk-textarea__input,
+.rk-textarea--mono textarea {
+	font-family: var(--rk-font-family-mono);
+	direction: ltr;
+	text-align: left;
+}
+
+.rk-textarea--error .components-textarea-control__input,
+.rk-textarea--error .rk-textarea__input,
+.rk-textarea--error textarea {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error);
+}
+
+/* حالت‌ها، به‌ترتیب صعودیِ ویژه‌بودن */
+
+.rk-textarea .components-textarea-control__input:disabled,
+.rk-textarea .rk-textarea__input:disabled,
+.rk-textarea textarea:disabled {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-disabled);
+	box-shadow: var(--rk-shadow-none);
+	cursor: not-allowed;
+}
+
+.rk-textarea .components-textarea-control__input:hover:not(:disabled),
+.rk-textarea .rk-textarea__input:hover:not(:disabled),
+.rk-textarea textarea:hover:not(:disabled) {
+	border-color: var(--rk-color-neutral-400);
+}
+
+.rk-textarea .components-textarea-control__input:focus:not(:disabled),
+.rk-textarea .rk-textarea__input:focus:not(:disabled),
+.rk-textarea textarea:focus:not(:disabled) {
+	border-color: var(--rk-color-focus);
+	box-shadow: var(--rk-shadow-focus);
+	outline: none;
+}
+
+.rk-textarea .components-base-control__help,
+.rk-textarea .rk-textarea__help {
+	display: block;
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-xs);
+	font-style: normal;
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}

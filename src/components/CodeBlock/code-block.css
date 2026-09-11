@@ -1,0 +1,57 @@
+/**
+ * CodeBlock — بلوک کد
+ *
+ * جایگزین `.rahkar-code`. برای مسیر فایل، پاسخ خام سرویس پیامک، و خروجی
+ * بررسی سلامت. همیشه چپ‌به‌راست است حتی وسط صفحهٔ فارسی، چون شکستن یک مسیر
+ * یا JSON در جهت راست‌به‌چپ آن را ناخوانا می‌کند.
+ */
+
+.rk-code {
+	display: block;
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-15);
+	background-color: var(--rk-color-neutral-900);
+	border: var(--rk-border-width) solid var(--rk-color-neutral-800);
+	border-radius: var(--rk-radius-md);
+	font-family: var(--rk-font-family-mono);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-neutral-100);
+	direction: ltr;
+	text-align: left;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	overflow-x: auto;
+}
+
+/* گونهٔ روشن — وقتی بلوک داخل کارت یا مودال است و زمینهٔ تیره سنگینی می‌کند */
+.rk-code--light {
+	background-color: var(--rk-color-surface-sunken);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text);
+}
+
+/* تک‌خطی درون‌متنی — مسیر یا نام تابع وسط جمله */
+.rk-code--inline {
+	display: inline;
+	padding: var(--rk-space-025) var(--rk-space-05);
+	background-color: var(--rk-color-surface-sunken);
+	border-color: var(--rk-color-border);
+	border-radius: var(--rk-radius-sm);
+	color: var(--rk-color-text);
+	white-space: nowrap;
+	unicode-bidi: isolate;
+}
+
+.rk-code__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--rk-space-1);
+	margin-block-end: var(--rk-space-05);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-2xs);
+	color: var(--rk-color-text-muted);
+	direction: rtl;
+	text-align: right;
+}

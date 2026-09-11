@@ -1,0 +1,200 @@
+/**
+ * TextField — فیلد ورودی متنی
+ *
+ * روی `TextControl` بستهٔ ‎@wordpress/components‎ سوار می‌شود. سلکتور ورودی هم
+ * کلاس وردپرس را می‌گیرد و هم `input` خام را، تا همین استایل روی مارک‌آپ ساده
+ * (صفحهٔ نمایشی، فرم‌های PHP) هم کار کند.
+ *
+ * ترتیب بلوک‌ها عمدی است: اول قاعده‌های بدون شبه‌کلاس (پایه، اندازه، خطا) و بعد
+ * حالت‌ها به‌ترتیب صعودیِ ویژه‌بودن. اگر hover بعد از focus بیاید، چون
+ * ویژه‌بودنش بیشتر است، حاشیهٔ فوکوس و حاشیهٔ خطا را می‌خورد.
+ *
+ * هر مودیفایر عمداً دو کلاس دارد (`.rk-field.rk-field--error`). سلکتور پایه
+ * شامل `input[type="text"]` است که ویژه‌بودن ۰٬۲٬۱ دارد؛ یک‌کلاسه بودنِ
+ * مودیفایر (۰٬۲٬۰) یعنی پایه همیشه برنده می‌شد و حالت خطا و اندازه‌ها بی‌اثر
+ * می‌ماندند — بی‌آنکه هیچ خطایی بدهند.
+ */
+
+.rk-field {
+	display: block;
+	margin-block-end: var(--rk-space-2);
+}
+
+.rk-field:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+/* ---------- برچسب ---------- */
+
+.rk-field .components-base-control__label,
+.rk-field .rk-field__label {
+	display: block;
+	margin-block-end: var(--rk-space-05);
+	padding: var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	text-transform: none;
+}
+
+.rk-field__required {
+	margin-inline-start: var(--rk-space-025);
+	color: var(--rk-color-error);
+}
+
+/* ---------- ورودی: پایه ---------- */
+
+.rk-field .components-text-control__input,
+.rk-field .rk-field__input,
+.rk-field input[type="text"],
+.rk-field input[type="email"],
+.rk-field input[type="url"],
+.rk-field input[type="tel"],
+.rk-field input[type="number"],
+.rk-field input[type="password"],
+.rk-field input[type="search"] {
+	display: block;
+	width: 100%;
+	height: var(--rk-control-height-md);
+	min-height: var(--rk-control-height-md);
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-0) var(--rk-space-1);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-inset);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-regular);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text);
+	transition:
+		border-color var(--rk-duration-fast) var(--rk-easing),
+		box-shadow var(--rk-duration-fast) var(--rk-easing);
+}
+
+.rk-field .components-text-control__input::placeholder,
+.rk-field .rk-field__input::placeholder,
+.rk-field input::placeholder {
+	color: var(--rk-color-text-muted);
+	opacity: 1;
+}
+
+/* ---------- اندازه‌ها ---------- */
+
+.rk-field.rk-field--sm .components-text-control__input,
+.rk-field.rk-field--sm .rk-field__input,
+.rk-field.rk-field--sm input {
+	height: var(--rk-control-height-sm);
+	min-height: var(--rk-control-height-sm);
+	font-size: var(--rk-font-size-xs);
+}
+
+.rk-field.rk-field--lg .components-text-control__input,
+.rk-field.rk-field--lg .rk-field__input,
+.rk-field.rk-field--lg input {
+	height: var(--rk-control-height-lg);
+	min-height: var(--rk-control-height-lg);
+	padding-inline: var(--rk-space-15);
+	font-size: var(--rk-font-size-md);
+}
+
+/* کلید API، شناسهٔ درگاه، توکن — همیشه چپ‌به‌راست و تک‌عرض */
+
+.rk-field.rk-field--mono .components-text-control__input,
+.rk-field.rk-field--mono .rk-field__input,
+.rk-field.rk-field--mono input {
+	font-family: var(--rk-font-family-mono);
+	letter-spacing: var(--rk-letter-spacing-caps);
+	direction: ltr;
+	text-align: left;
+}
+
+/* ---------- حالت خطا: رنگ پایه ---------- */
+
+.rk-field.rk-field--error .components-text-control__input,
+.rk-field.rk-field--error .rk-field__input,
+.rk-field.rk-field--error input {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error);
+}
+
+/* ---------- حالت‌ها، به‌ترتیب صعودیِ ویژه‌بودن ---------- */
+
+.rk-field .components-text-control__input:disabled,
+.rk-field .rk-field__input:disabled,
+.rk-field input:disabled {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-disabled);
+	box-shadow: var(--rk-shadow-none);
+	cursor: not-allowed;
+}
+
+.rk-field .components-text-control__input:hover:not(:disabled),
+.rk-field .rk-field__input:hover:not(:disabled),
+.rk-field input:hover:not(:disabled) {
+	border-color: var(--rk-color-neutral-400);
+}
+
+/* فوکوس هم‌ویژهٔ hover است و بعد از آن می‌آید،
+   پس هنگام hover+focus برنده می‌شود */
+
+.rk-field .components-text-control__input:focus:not(:disabled),
+.rk-field .rk-field__input:focus:not(:disabled),
+.rk-field input:focus:not(:disabled) {
+	border-color: var(--rk-color-focus);
+	box-shadow: var(--rk-shadow-focus);
+	outline: none;
+}
+
+/* خطا باید روی hover و focus هم بماند، پس یک کلاس ویژه‌تر است */
+
+.rk-field.rk-field--error .components-text-control__input:hover:not(:disabled),
+.rk-field.rk-field--error .rk-field__input:hover:not(:disabled),
+.rk-field.rk-field--error input:hover:not(:disabled) {
+	border-color: var(--rk-color-error);
+}
+
+.rk-field.rk-field--error .components-text-control__input:focus:not(:disabled),
+.rk-field.rk-field--error .rk-field__input:focus:not(:disabled),
+.rk-field.rk-field--error input:focus:not(:disabled) {
+	border-color: var(--rk-color-error);
+	box-shadow: var(--rk-shadow-focus-error);
+}
+
+/* ---------- راهنما و خطا ---------- */
+
+.rk-field .components-base-control__help,
+.rk-field .rk-field__help {
+	display: block;
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-xs);
+	font-style: normal;
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-field__error {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-05);
+	margin-block-start: var(--rk-space-05);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-error);
+}
+
+/* ردیف افقی دو فیلد کنار هم */
+
+.rk-field-row {
+	display: flex;
+	gap: var(--rk-space-2);
+}
+
+.rk-field-row > .rk-field {
+	flex: 1 1 0;
+}

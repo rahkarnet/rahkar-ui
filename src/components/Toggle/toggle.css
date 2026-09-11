@@ -1,0 +1,172 @@
+/**
+ * Toggle — سوییچ روشن/خاموش
+ *
+ * روی `FormToggle` بستهٔ ‎@wordpress/components‎ سوار می‌شود. عمداً کپسولی
+ * نیست؛ ریل و دستهٔ مستطیلی با گوشهٔ کوچک، شبیه کلید ابزارهای صنعتی.
+ *
+ * سلکتورها هم نام‌کلاس‌های وردپرس را پوشش می‌دهند و هم معادل `rk-` را، تا همین
+ * استایل روی مارک‌آپ ساده (صفحهٔ نمایشی، فرم‌های PHP) هم کار کند.
+ */
+
+.rk-toggle {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+}
+
+.rk-toggle--reverse {
+	flex-direction: row-reverse;
+	justify-content: space-between;
+}
+
+/* ---------- ریل ---------- */
+
+.rk-toggle__control.rk-toggle__control {
+	position: relative;
+	display: inline-block;
+	flex: 0 0 auto;
+	width: var(--rk-toggle-width);
+	height: var(--rk-toggle-height);
+	margin: var(--rk-space-0);
+	vertical-align: top;
+}
+
+.rk-toggle__control input[type="checkbox"] {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-0);
+	border: 0;
+	opacity: 0;
+	cursor: pointer;
+	z-index: var(--rk-z-base);
+}
+
+.rk-toggle__control .components-form-toggle__track,
+.rk-toggle__control .rk-toggle__track {
+	position: absolute;
+	inset: 0;
+	width: var(--rk-toggle-width);
+	height: var(--rk-toggle-height);
+	background-color: var(--rk-color-neutral-200);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-inset);
+	transition:
+		background-color var(--rk-duration-fast) var(--rk-easing),
+		border-color var(--rk-duration-fast) var(--rk-easing);
+	pointer-events: none;
+}
+
+/* ---------- دسته ---------- */
+
+.rk-toggle__control .components-form-toggle__thumb,
+.rk-toggle__control .rk-toggle__thumb {
+	position: absolute;
+	top: var(--rk-toggle-inset);
+	inset-inline-start: var(--rk-toggle-inset);
+	width: var(--rk-toggle-thumb-size);
+	height: var(--rk-toggle-thumb-size);
+	background-color: var(--rk-color-neutral-0);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-sm);
+	box-shadow: var(--rk-shadow-xs);
+
+	/* جابه‌جایی با inset منطقی است تا در RTL و LTR درست حرکت کند */
+	transition:
+		inset-inline-start var(--rk-duration-normal) var(--rk-easing),
+		border-color var(--rk-duration-fast) var(--rk-easing);
+	pointer-events: none;
+}
+
+/* سه شیار روی دسته — جزئیات «ابزارِ دست» */
+.rk-toggle__control .components-form-toggle__thumb::after,
+.rk-toggle__control .rk-toggle__thumb::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 50%;
+	top: 50%;
+	width: var(--rk-space-05);
+	height: var(--rk-space-1);
+	transform: translate(-50%, -50%);
+	border-inline-start: var(--rk-border-width) solid var(--rk-color-neutral-300);
+	border-inline-end: var(--rk-border-width) solid var(--rk-color-neutral-300);
+}
+
+/* ---------- حالت روشن ---------- */
+
+.rk-toggle__control input[type="checkbox"]:checked ~ .components-form-toggle__track,
+.rk-toggle__control input[type="checkbox"]:checked ~ .rk-toggle__track {
+	background-color: var(--rk-color-brand-700);
+	border-color: var(--rk-color-brand-800);
+}
+
+.rk-toggle__control input[type="checkbox"]:checked ~ .components-form-toggle__thumb,
+.rk-toggle__control input[type="checkbox"]:checked ~ .rk-toggle__thumb {
+	inset-inline-start: var(--rk-toggle-travel);
+	border-color: var(--rk-color-brand-900);
+}
+
+/* ---------- فوکوس و غیرفعال ---------- */
+
+.rk-toggle__control input[type="checkbox"]:focus-visible {
+	outline: none;
+}
+
+.rk-toggle__control input[type="checkbox"]:focus-visible ~ .components-form-toggle__track,
+.rk-toggle__control input[type="checkbox"]:focus-visible ~ .rk-toggle__track {
+	box-shadow: var(--rk-shadow-focus);
+	border-color: var(--rk-color-focus);
+}
+
+.rk-toggle__control input[type="checkbox"]:disabled {
+	cursor: not-allowed;
+}
+
+.rk-toggle__control input[type="checkbox"]:disabled ~ .components-form-toggle__track,
+.rk-toggle__control input[type="checkbox"]:disabled ~ .rk-toggle__track {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+}
+
+.rk-toggle__control input[type="checkbox"]:disabled ~ .components-form-toggle__thumb,
+.rk-toggle__control input[type="checkbox"]:disabled ~ .rk-toggle__thumb {
+	background-color: var(--rk-color-neutral-100);
+	border-color: var(--rk-color-border);
+}
+
+/* ---------- برچسب ---------- */
+
+.rk-toggle__label {
+	display: block;
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	cursor: pointer;
+	padding-block-start: var(--rk-space-025);
+}
+
+.rk-toggle__help {
+	display: block;
+	margin-block-start: var(--rk-space-05);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-toggle__state {
+	margin-inline-start: var(--rk-space-1);
+	font-family: var(--rk-font-family-mono);
+	font-size: var(--rk-font-size-2xs);
+	font-weight: var(--rk-font-weight-regular);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-toggle.is-disabled .rk-toggle__label,
+.rk-toggle.is-disabled .rk-toggle__help {
+	color: var(--rk-color-text-disabled);
+	cursor: not-allowed;
+}

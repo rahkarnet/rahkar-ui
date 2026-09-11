@@ -1,0 +1,151 @@
+/**
+ * Table — جدول داده
+ *
+ * جایگزین `widefat striped` وردپرس. آن کلاس‌ها به رنگ‌های پیشخوان قفل‌اند و
+ * توکن‌های ما به آن‌ها نمی‌رسد.
+ *
+ * قاب بیرونی جدا از خودِ جدول است، چون جدول باید در عرض کم اسکرول افقی بگیرد
+ * و نه اینکه صفحه را بکشد.
+ */
+
+.rk-table-wrap {
+	width: 100%;
+	overflow-x: auto;
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+}
+
+.rk-table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+}
+
+.rk-table th,
+.rk-table td {
+	padding: var(--rk-space-15) var(--rk-space-2);
+	text-align: right;
+	vertical-align: top;
+	border-block-end:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+/*
+ * جدول فشرده — برای فهرست‌های بلند مثل گزارش‌ها.
+ * عمداً پیش از قاعدهٔ `thead th` می‌آید: آن یکی ویژه‌بودن بیشتری دارد
+ * (0,1,2 در برابر 0,1,1) و اگر بعد می‌آمد، پدینگِ فشرده به سربرگ جدول
+ * نمی‌رسید و ردیف سربرگ از بقیه بلندتر می‌ماند.
+ */
+.rk-table--compact th,
+.rk-table--compact td {
+	padding: var(--rk-space-1) var(--rk-space-15);
+	font-size: var(--rk-font-size-xs);
+}
+
+.rk-table thead th {
+	position: sticky;
+	top: 0;
+	z-index: var(--rk-z-sticky);
+	background-color: var(--rk-color-surface-sunken);
+	border-block-end: var(--rk-border-width) solid var(--rk-color-border);
+	font-size: var(--rk-font-size-xs);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	white-space: nowrap;
+}
+
+.rk-table tbody tr:last-child th,
+.rk-table tbody tr:last-child td {
+	border-block-end: 0;
+}
+
+/* ردیف‌های یک‌درمیان — خیلی کم‌رنگ، فقط برای دنبال‌کردن ردیف در جدول عریض */
+.rk-table--striped tbody tr:nth-child(even) {
+	background-color: var(--rk-color-neutral-25);
+}
+
+.rk-table--hover tbody tr:hover {
+	background-color: var(--rk-color-surface-hover);
+}
+
+/* ---------- ستون‌های پرکاربرد ---------- */
+
+/* زمان، نسخه، شناسه — تک‌عرض و چپ‌به‌راست تا ستون نلرزد */
+.rk-table__mono {
+	font-family: var(--rk-font-family-mono);
+	font-size: var(--rk-font-size-2xs);
+	color: var(--rk-color-text-muted);
+	direction: ltr;
+	unicode-bidi: isolate;
+	white-space: nowrap;
+}
+
+.rk-table__nowrap {
+	white-space: nowrap;
+}
+
+/* ستون عددی — راست‌چین در LTR، ولی اینجا عدد همیشه چپ‌چین می‌ماند */
+.rk-table__num {
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.rk-table__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-05);
+	justify-content: flex-end;
+}
+
+/* ---------- جزئیات بازشونده ---------- */
+
+.rk-table__detail {
+	margin: var(--rk-space-1) var(--rk-space-0) var(--rk-space-0);
+	padding: var(--rk-space-1) var(--rk-space-15);
+	background-color: var(--rk-color-surface-sunken);
+	border: var(--rk-border-width) solid var(--rk-color-border-subtle);
+	border-radius: var(--rk-radius-sm);
+	font-family: var(--rk-font-family-mono);
+	font-size: var(--rk-font-size-2xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+	direction: ltr;
+	text-align: left;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.rk-table__toggle {
+	padding: var(--rk-space-0);
+	background: none;
+	border: 0;
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-2xs);
+	color: var(--rk-color-text-brand);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* ---------- نوار زیر جدول ---------- */
+
+.rk-table-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--rk-space-2);
+	flex-wrap: wrap;
+	margin-block-start: var(--rk-space-15);
+}
+
+.rk-table-count {
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text-muted);
+}

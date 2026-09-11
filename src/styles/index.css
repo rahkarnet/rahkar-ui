@@ -1,0 +1,40 @@
+/**
+ * نقطهٔ ورود استایل‌ها.
+ * ترتیب مهم است: توکن‌ها → پایه → کامپوننت‌ها.
+ *
+ * فونت اینجا نیست: `assets/fonts/fonts.css` جداگانه و مشروط لود می‌شود.
+ */
+
+@import "../tokens/tokens.css";
+@import "./base.css";
+@import "../icons/icon.css";
+
+/* پایه‌ای‌ها — چیزهایی که بقیه به کلاس‌هایشان تکیه می‌کنند */
+@import "../components/Badge/badge.css";
+@import "../components/Button/button.css";
+
+/* کنترل‌های فرم */
+@import "../components/TextField/text-field.css";
+@import "../components/Textarea/textarea.css";
+@import "../components/NumberField/number-field.css";
+@import "../components/Select/select.css";
+@import "../components/Toggle/toggle.css";
+@import "../components/FormRow/form-row.css";
+
+/* ظرف‌ها */
+@import "../components/Card/card.css";
+@import "../components/Panel/panel.css";
+@import "../components/Modal/modal.css";
+
+/* داده و ناوبری */
+@import "../components/Table/table.css";
+@import "../components/Pagination/pagination.css";
+@import "../components/Toolbar/toolbar.css";
+@import "../components/Tabs/tabs.css";
+@import "../components/VerticalTabs/vertical-tabs.css";
+
+/* بازخورد */
+@import "../components/Notice/notice.css";
+@import "../components/StatTile/stat-tile.css";
+@import "../components/EmptyState/empty-state.css";
+@import "../components/CodeBlock/code-block.css";

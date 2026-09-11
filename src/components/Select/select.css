@@ -1,0 +1,153 @@
+/**
+ * Select — فهرست کشویی
+ *
+ * برخلاف بقیهٔ کنترل‌ها روی `SelectControl` سوار نشده. دلیلش این است که
+ * SelectControl نسخهٔ ۲۹ روی `InputBase` ساخته شده و حاشیه‌اش را یک عنصر
+ * جداگانه (`backdrop`) با استایل emotion می‌کشد؛ بازنویسی ظاهرش یعنی جنگیدن با
+ * آن لایه و شکستن با هر ارتقای نسخه. اینجا `BaseControl` — که دقیقاً برای
+ * پوشاندن کنترل دلخواه ساخته شده — اتصال برچسب و راهنما را می‌دهد و `select`
+ * بومی زیرش می‌نشیند.
+ */
+
+.rk-select {
+	display: block;
+	margin-block-end: var(--rk-space-2);
+}
+
+.rk-select:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+.rk-select .components-base-control__label,
+.rk-select .rk-select__label {
+	display: block;
+	margin-block-end: var(--rk-space-05);
+	padding: var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	text-transform: none;
+}
+
+.rk-select__wrap {
+	position: relative;
+	display: block;
+}
+
+.rk-select .rk-select__input,
+.rk-select select {
+	display: block;
+	width: 100%;
+	height: var(--rk-control-height-md);
+	min-height: var(--rk-control-height-md);
+	margin: var(--rk-space-0);
+
+	/* جا برای فلش سفارشی در لبهٔ پایانی */
+	padding: var(--rk-space-0) var(--rk-space-1);
+	padding-inline-end: var(--rk-space-4);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-inset);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-regular);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text);
+	cursor: pointer;
+
+	/*
+	 * هر سه با هم لازم‌اند، نه فقط appearance.
+	 *
+	 * پیشخوان وردپرس روی هر select این‌ها را می‌گذارد:
+	 * `.wp-core-ui select { max-width: 25rem; background-image: <شورون> }`.
+	 * appearance فقط فلش بومی مرورگر را برمی‌دارد و کاری به background-image
+	 * ندارد، پس شورون وردپرس داخل کادر می‌ماند و کنار فلش خودمان دو تا می‌شود.
+	 * max-width هم کنترل را ۴۰۰ پیکسل نگه می‌دارد در حالی که __wrap تمام عرض
+	 * را می‌گیرد — و چون فلش نسبت به __wrap مطلق است، از کادر جدا می‌افتد.
+	 */
+	max-width: none;
+	background-image: none;
+	appearance: none;
+	transition:
+		border-color var(--rk-duration-fast) var(--rk-easing),
+		box-shadow var(--rk-duration-fast) var(--rk-easing);
+}
+
+/* فلش سفارشی — فلش بومی مرورگر در ویندوز آبی و ناهماهنگ است */
+.rk-select__arrow {
+	position: absolute;
+	inset-inline-end: var(--rk-space-15);
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--rk-color-text-muted);
+	pointer-events: none;
+}
+
+.rk-select--sm .rk-select__input,
+.rk-select--sm select {
+	height: var(--rk-control-height-sm);
+	min-height: var(--rk-control-height-sm);
+	font-size: var(--rk-font-size-xs);
+}
+
+.rk-select--lg .rk-select__input,
+.rk-select--lg select {
+	height: var(--rk-control-height-lg);
+	min-height: var(--rk-control-height-lg);
+	font-size: var(--rk-font-size-md);
+}
+
+/* عرض طبیعی — برای نوار فیلتر که فیلد نباید تمام عرض را بگیرد */
+.rk-select--auto {
+	display: inline-block;
+	margin-block-end: var(--rk-space-0);
+}
+
+.rk-select--auto .rk-select__input,
+.rk-select--auto select {
+	width: auto;
+	min-width: var(--rk-space-10);
+}
+
+.rk-select--error .rk-select__input,
+.rk-select--error select {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error);
+}
+
+/* حالت‌ها، به‌ترتیب صعودیِ ویژه‌بودن */
+
+.rk-select .rk-select__input:disabled,
+.rk-select select:disabled {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-disabled);
+	box-shadow: var(--rk-shadow-none);
+	cursor: not-allowed;
+}
+
+.rk-select .rk-select__input:hover:not(:disabled),
+.rk-select select:hover:not(:disabled) {
+	border-color: var(--rk-color-neutral-400);
+}
+
+.rk-select .rk-select__input:focus:not(:disabled),
+.rk-select select:focus:not(:disabled) {
+	border-color: var(--rk-color-focus);
+	box-shadow: var(--rk-shadow-focus);
+	outline: none;
+}
+
+.rk-select .components-base-control__help,
+.rk-select .rk-select__help {
+	display: block;
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-xs);
+	font-style: normal;
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}

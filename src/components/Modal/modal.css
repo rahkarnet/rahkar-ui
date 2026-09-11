@@ -1,0 +1,242 @@
+/**
+ * Modal — مودال
+ *
+ * روی `Modal` بستهٔ ‎@wordpress/components‎ سوار می‌شود؛ تلهٔ فوکوس، بستن با
+ * Esc، قفل اسکرول و نقش‌های aria از آنجا می‌آید و اینجا فقط ظاهر عوض می‌شود.
+ *
+ * سلکتورها هم نام‌کلاس‌های وردپرس را می‌گیرند و هم معادل `rk-` را، تا همین
+ * استایل روی مارک‌آپ ساده (صفحهٔ نمایشی، فرم‌های PHP) هم کار کند.
+ */
+
+/* ---------- پردهٔ پشت ---------- */
+
+.rk-modal-overlay.rk-modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: var(--rk-z-overlay);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--rk-space-3);
+	background-color: var(--rk-color-overlay);
+
+	/* بدون بلور: افکت شیشه‌ای عمداً در این سیستم نیست */
+}
+
+/*
+ * `display: flex` بالا ویژه‌بودن ۰٬۲٬۰ دارد و قاعدهٔ پیش‌فرض مرورگر برای
+ * `[hidden]` فقط ۰٬۱٬۰ است — یعنی بدون این قاعده، پرده حتی با `hidden` هم
+ * دیده می‌شود و کل صفحه را می‌پوشاند. در ری‌اکت اهمیتی ندارد (وردپرس مودال را
+ * اصلاً mount نمی‌کند)، ولی روی مارک‌آپ ساده که با `hidden` کنترل می‌شود
+ * صفحه را از کار می‌اندازد.
+ */
+.rk-modal-overlay.rk-modal-overlay[hidden] {
+	display: none;
+}
+
+/* ---------- قاب ---------- */
+
+.rk-modal.rk-modal {
+	position: relative;
+	z-index: var(--rk-z-modal);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: var(--rk-modal-width-md);
+	max-height: calc(100vh - var(--rk-space-8));
+	margin: var(--rk-space-0);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-lg);
+	font-family: var(--rk-font-family);
+	color: var(--rk-color-text);
+	direction: rtl;
+	text-align: right;
+	overflow: hidden;
+}
+
+.rk-modal.rk-modal--sm {
+	max-width: var(--rk-modal-width-sm);
+}
+
+.rk-modal.rk-modal--lg {
+	max-width: var(--rk-modal-width-lg);
+}
+
+/* ---------- سربرگ ---------- */
+
+.rk-modal .components-modal__header,
+.rk-modal .rk-modal__header {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+	height: auto;
+	padding: var(--rk-space-2);
+	margin: var(--rk-space-0);
+	background-color: var(--rk-color-surface);
+	border: 0;
+	border-block-end: var(--rk-border-width) solid var(--rk-color-border-subtle);
+}
+
+.rk-modal .components-modal__header-heading,
+.rk-modal .rk-modal__title {
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-0);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-lg);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-modal .components-modal__header-heading-container,
+.rk-modal .rk-modal__heading {
+	flex: 1 1 auto;
+	min-width: 0;
+	align-items: flex-start;
+	justify-content: flex-start;
+	text-align: right;
+}
+
+/* دکمهٔ بستن — در RTL سمت چپ می‌نشیند چون آخرین فرزند سربرگ است */
+.rk-modal .components-modal__header .components-button,
+.rk-modal .rk-modal__close {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--rk-control-height-sm);
+	height: var(--rk-control-height-sm);
+	min-width: auto;
+	padding: var(--rk-space-0);
+	background-color: transparent;
+	border: var(--rk-border-width) solid transparent;
+	border-radius: var(--rk-radius-md);
+	color: var(--rk-color-text-muted);
+	cursor: pointer;
+}
+
+.rk-modal .components-modal__header .components-button:hover,
+.rk-modal .rk-modal__close:hover {
+	background-color: var(--rk-color-surface-hover);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-strong);
+}
+
+/* ---------- بدنه ---------- */
+
+.rk-modal .components-modal__content,
+.rk-modal .rk-modal__content {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-height: 0;
+	padding: var(--rk-space-0);
+	margin: var(--rk-space-0);
+	overflow: hidden;
+}
+
+.rk-modal__body {
+	flex: 1 1 auto;
+	min-height: 0;
+	padding: var(--rk-space-2);
+	overflow-y: auto;
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+}
+
+.rk-modal__body > *:first-child {
+	margin-block-start: var(--rk-space-0);
+}
+
+/* زیرعنوان — سرآغاز بدنه، نه بخشی از سربرگ */
+.rk-modal__subtitle {
+	margin: var(--rk-space-0) var(--rk-space-0) var(--rk-space-15);
+	font-size: var(--rk-font-size-xs);
+	font-weight: var(--rk-font-weight-regular);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-modal__body > *:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+/* ---------- پاورقی ---------- */
+
+.rk-modal__footer {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--rk-space-1);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background-color: var(--rk-color-surface-sunken);
+	border-block-start: var(--rk-border-width) solid var(--rk-color-border-subtle);
+}
+
+.rk-modal__footer--between {
+	justify-content: space-between;
+}
+
+/* ---------- تأیید کار مخرب ---------- */
+
+.rk-confirm {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+}
+
+.rk-confirm__glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: var(--rk-control-height-md);
+	height: var(--rk-control-height-md);
+	background-color: var(--rk-color-surface-sunken);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-md);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-confirm--danger .rk-confirm__glyph {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error-border);
+	color: var(--rk-color-error);
+}
+
+.rk-confirm--warning .rk-confirm__glyph {
+	background-color: var(--rk-color-warning-bg);
+	border-color: var(--rk-color-warning-border);
+	color: var(--rk-color-warning);
+}
+
+.rk-confirm__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.rk-confirm__message {
+	margin: var(--rk-space-0);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+}
+
+/* پیامد برگشت‌ناپذیر — عمداً از متن اصلی جدا و پررنگ‌تر */
+.rk-confirm__consequence {
+	display: block;
+	margin-block-start: var(--rk-space-1);
+	padding: var(--rk-space-1) var(--rk-space-15);
+	background-color: var(--rk-color-error-bg);
+	border-inline-start: var(--rk-border-width-strong) solid var(--rk-color-error);
+	border-radius: var(--rk-radius-sm);
+	font-size: var(--rk-font-size-xs);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-error);
+}

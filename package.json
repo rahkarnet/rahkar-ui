@@ -1,0 +1,44 @@
+{
+  "name": "rahkar-ui",
+  "version": "0.3.0",
+  "description": "دیزاین سیستم مشترک پلاگین‌های راهکار (rahkarwp) برای پیشخوان ووکامرس فارسی",
+  "license": "GPL-2.0-or-later",
+  "private": false,
+  "main": "build/index.js",
+  "module": "src/index.js",
+  "files": [
+    "build",
+    "src",
+    "php",
+    "assets",
+    "README.md"
+  ],
+  "keywords": [
+    "wordpress",
+    "woocommerce",
+    "design-system",
+    "rtl",
+    "persian"
+  ],
+  "scripts": {
+    "build": "wp-scripts build && node scripts/copy-assets.js",
+    "start": "wp-scripts start",
+    "lint:js": "wp-scripts lint-js src",
+    "lint:css": "wp-scripts lint-style \"src/**/*.css\"",
+    "format": "wp-scripts format src",
+    "demo": "node scripts/serve-demo.js",
+    "clean": "node -e \"require('fs').rmSync('build',{recursive:true,force:true})\""
+  },
+  "peerDependencies": {
+    "@wordpress/components": ">=27.0.0",
+    "@wordpress/element": ">=5.0.0",
+    "@wordpress/i18n": ">=4.0.0"
+  },
+  "devDependencies": {
+    "@wordpress/components": "^29.0.0",
+    "@wordpress/element": "^6.0.0",
+    "@wordpress/i18n": "^5.0.0",
+    "@wordpress/scripts": "^30.0.0",
+    "typescript": "^5.9.3"
+  }
+}

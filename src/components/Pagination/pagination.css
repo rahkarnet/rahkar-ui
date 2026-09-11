@@ -1,0 +1,70 @@
+/**
+ * Pagination — صفحه‌بندی
+ *
+ * جایگزین `tablenav-pages` وردپرس. در RTL، «بعدی» به چپ اشاره می‌کند و
+ * «قبلی» به راست — پس آیکون‌ها نسبت به نسخهٔ لاتین جابه‌جا می‌شوند.
+ */
+
+.rk-pagination {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-05);
+}
+
+.rk-pagination__item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--rk-control-height-sm);
+	height: var(--rk-control-height-sm);
+	padding: var(--rk-space-0) var(--rk-space-1);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-xs);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text);
+	text-decoration: none;
+	font-variant-numeric: tabular-nums;
+	cursor: pointer;
+	transition:
+		background-color var(--rk-duration-fast) var(--rk-easing),
+		border-color var(--rk-duration-fast) var(--rk-easing);
+}
+
+.rk-pagination__item[aria-current="page"] {
+	background-color: var(--rk-color-brand-700);
+	border-color: var(--rk-color-brand-800);
+	color: var(--rk-color-text-inverse);
+	cursor: default;
+}
+
+.rk-pagination__item:disabled {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-disabled);
+	cursor: not-allowed;
+}
+
+.rk-pagination__item:hover:not(:disabled):not([aria-current="page"]) {
+	background-color: var(--rk-color-surface-hover);
+	border-color: var(--rk-color-neutral-400);
+	color: var(--rk-color-text-strong);
+}
+
+/* فاصلهٔ حذف‌شده بین شماره‌ها */
+.rk-pagination__gap {
+	padding: var(--rk-space-0) var(--rk-space-05);
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text-muted);
+	user-select: none;
+}
+
+.rk-pagination__summary {
+	margin-inline-start: var(--rk-space-1);
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text-muted);
+	white-space: nowrap;
+}

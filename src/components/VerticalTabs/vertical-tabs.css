@@ -1,0 +1,229 @@
+/**
+ * VerticalTabs — تب عمودی سلسله‌مراتبی
+ *
+ * برای صفحهٔ تنظیمات ماژولی که ده‌ها فیلد دارد. تب افقی وقتی تعداد از پنج‌شش
+ * تا بگذرد می‌شکند: یا سرریز می‌شود و اسکرول افقی می‌گیرد، یا به خط دوم
+ * می‌رود و دیگر معلوم نیست کدام فعال است. تب عمودی با تعداد رشد می‌کند.
+ *
+ * سلسله‌مراتب دو سطح است و عمداً بیشتر نه: سطح سوم یعنی کاربر باید سه بار
+ * کلیک کند تا یک تنظیم را ببیند.
+ */
+
+.rk-vtabs-layout {
+	display: grid;
+	grid-template-columns: var(--rk-vtabs-width) minmax(0, 1fr);
+	gap: var(--rk-space-3);
+	align-items: start;
+}
+
+.rk-vtabs {
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+	overflow: hidden;
+}
+
+/* ناوبری با صفحه اسکرول نمی‌شود — در فهرست بلند، تب فعال از دید خارج می‌شد */
+.rk-vtabs--sticky {
+	position: sticky;
+	top: var(--rk-vtabs-sticky-top);
+	max-height: calc(100vh - var(--rk-vtabs-sticky-top) - var(--rk-space-3));
+	overflow-y: auto;
+}
+
+/* ---------- جست‌وجو ---------- */
+
+.rk-vtabs__search {
+	position: relative;
+	padding: var(--rk-space-1);
+	border-block-end:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+.rk-vtabs__search input {
+	display: block;
+	width: 100%;
+	height: var(--rk-control-height-sm);
+	padding: var(--rk-space-0) var(--rk-space-1);
+	padding-inline-start: var(--rk-space-4);
+	background-color: var(--rk-color-surface-sunken);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-md);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text);
+}
+
+.rk-vtabs__search input:focus {
+	border-color: var(--rk-color-focus);
+	box-shadow: var(--rk-shadow-focus);
+	outline: none;
+}
+
+.rk-vtabs__search-icon {
+	position: absolute;
+	inset-inline-start: var(--rk-space-2);
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--rk-color-text-muted);
+	pointer-events: none;
+}
+
+/* ---------- فهرست ---------- */
+
+.rk-vtabs__list {
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-05);
+	list-style: none;
+}
+
+.rk-vtabs__item {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	width: 100%;
+	padding: var(--rk-space-1) var(--rk-space-15);
+	background: none;
+	border: 0;
+
+	/* نوار وضعیت همیشه هست و فقط رنگش عوض می‌شود، وگرنه متن با فعال‌شدن
+	   جابه‌جا می‌شود. */
+	border-inline-start: var(--rk-border-width-strong) solid transparent;
+	border-radius: var(--rk-radius-md);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-regular);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text);
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background-color var(--rk-duration-fast) var(--rk-easing),
+		color var(--rk-duration-fast) var(--rk-easing);
+}
+
+/* فرزندها تورفته‌اند و یک خط راهنما دارند تا عمق دیده شود */
+.rk-vtabs__children .rk-vtabs__item {
+	padding-inline-start: var(--rk-space-4);
+	font-size: var(--rk-font-size-xs);
+}
+
+.rk-vtabs__item:disabled,
+.rk-vtabs__item[aria-disabled="true"] {
+	color: var(--rk-color-text-disabled);
+	cursor: not-allowed;
+}
+
+.rk-vtabs__label {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.rk-vtabs__item:hover:not([aria-current="page"]) {
+	background-color: var(--rk-color-surface-hover);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-vtabs__item[aria-current="page"] {
+	background-color: var(--rk-color-brand-50);
+	border-inline-start-color: var(--rk-color-brand-700);
+	color: var(--rk-color-brand-700);
+	font-weight: var(--rk-font-weight-bold);
+}
+
+/* ---------- گروه ---------- */
+
+.rk-vtabs__group-toggle {
+	color: var(--rk-color-text-muted);
+	font-weight: var(--rk-font-weight-medium);
+}
+
+.rk-vtabs__chevron {
+	flex: 0 0 auto;
+	color: var(--rk-color-text-muted);
+	transition: transform var(--rk-duration-fast) var(--rk-easing);
+}
+
+.rk-vtabs__group[data-open="false"] .rk-vtabs__chevron {
+
+	/* در RTL، بسته یعنی اشاره به راست */
+	transform: rotate(90deg);
+}
+
+.rk-vtabs__children {
+	margin: var(--rk-space-0);
+	padding: var(--rk-space-0);
+	list-style: none;
+}
+
+.rk-vtabs__group[data-open="false"] .rk-vtabs__children {
+	display: none;
+}
+
+/* ---------- شمارنده و نشان ---------- */
+
+.rk-vtabs__count {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--rk-space-2);
+	height: var(--rk-space-2);
+	padding: var(--rk-space-0) var(--rk-space-05);
+	background-color: var(--rk-color-neutral-100);
+	border-radius: var(--rk-radius-sm);
+	font-size: var(--rk-font-size-2xs);
+	font-weight: var(--rk-font-weight-medium);
+	color: var(--rk-color-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+.rk-vtabs__count--error {
+	background-color: var(--rk-color-error-bg);
+	color: var(--rk-color-error);
+}
+
+/* نقطهٔ «تغییر ذخیره‌نشده» — کاربر باید بداند کدام تب دست‌نخورده نمانده */
+.rk-vtabs__dirty {
+	flex: 0 0 auto;
+	width: var(--rk-space-05);
+	height: var(--rk-space-05);
+	border-radius: var(--rk-radius-full);
+	background-color: var(--rk-color-warning);
+}
+
+.rk-vtabs__empty {
+	padding: var(--rk-space-2) var(--rk-space-15);
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text-muted);
+	text-align: center;
+}
+
+/* ---------- پنل ---------- */
+
+/*
+ * پنل غیرفعال پنهان می‌شود ولی از DOM بیرون نمی‌رود. این عمدی است: اگر فرم
+ * سمت سرور ذخیره شود، فیلدهای رندرنشده اصلاً POST نمی‌شوند و با یک «ذخیره»
+ * پاک می‌شوند. جزئیاتش در README بخش «تب عمودی و ذخیره‌سازی».
+ */
+.rk-vtabs-panel[hidden] {
+	display: none;
+}
+
+@media (max-width: 782px) {
+
+	.rk-vtabs-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.rk-vtabs--sticky {
+		position: static;
+		max-height: none;
+	}
+}

@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>rahkar-ui — صفحهٔ نمایشی</title>
+
+	<!--
+		استایل‌ها مستقیم از src خوانده می‌شوند؛ این صفحه به build نیاز ندارد.
+		فقط باید روی http باز شود (نه file://) وگرنه اسپرایت آیکون به‌خاطر
+		CORS لود نمی‌شود.  →  http://localhost/rahkar-ui/demo/
+
+		اگر فایل‌های وزیرمتن را در assets/fonts/ نگذاشته باشید، همین سه درخواست
+		فونت در کنسول ۴۰۴ می‌دهند و فونت جایگزین سیستم استفاده می‌شود. طبیعی است.
+	-->
+	<link rel="stylesheet" href="../assets/fonts/fonts.css">
+	<link rel="stylesheet" href="../src/styles/index.css">
+
+	<style>
+		/* استایل‌های مخصوص همین صفحه — همه از توکن‌ها */
+		body {
+			margin: 0;
+			background-color: var(--rk-color-surface-sunken);
+		}
+
+		.demo {
+			max-width: 1080px;
+			margin: 0 auto;
+			padding: var(--rk-space-4) var(--rk-space-3) var(--rk-space-8);
+		}
+
+		.demo-head {
+			display: flex;
+			align-items: center;
+			gap: var(--rk-space-15);
+			padding-block-end: var(--rk-space-3);
+			margin-block-end: var(--rk-space-4);
+			border-block-end: var(--rk-border-width) solid var(--rk-color-border);
+		}
+
+		/* نشان برند خودش رنگ و فرم دارد؛ کادر رنگی پشتش لازم نیست. */
+		.demo-mark {
+			display: block;
+			width: var(--rk-space-5);
+			height: var(--rk-space-5);
+		}
+
+		.demo-section {
+			margin-block-end: var(--rk-space-5);
+		}
+
+		.demo-section > h2 {
+			margin: 0 0 var(--rk-space-05);
+			font-size: var(--rk-font-size-lg);
+			font-weight: var(--rk-font-weight-bold);
+			color: var(--rk-color-text-strong);
+		}
+
+		.demo-section > p.demo-note {
+			margin: 0 0 var(--rk-space-2);
+			font-size: var(--rk-font-size-xs);
+			color: var(--rk-color-text-muted);
+		}
+
+		.demo-panel {
+			padding: var(--rk-space-3);
+			background-color: var(--rk-color-surface);
+			border: var(--rk-border-width) solid var(--rk-color-border);
+			border-radius: var(--rk-radius-lg);
+			box-shadow: var(--rk-shadow-xs);
+		}
+
+		.demo-row {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--rk-space-15);
+		}
+
+		.demo-row + .demo-row {
+			margin-block-start: var(--rk-space-3);
+			padding-block-start: var(--rk-space-3);
+			border-block-start: var(--rk-border-width) dashed var(--rk-color-border-subtle);
+		}
+
+		.demo-label {
+			flex: 0 0 120px;
+			font-size: var(--rk-font-size-xs);
+			color: var(--rk-color-text-muted);
+		}
+
+		/* ---- شبکهٔ رنگ ---- */
+		/* flex و نه grid: با auto-fill تعداد ستون‌ها ثابت می‌شد و ردیفِ
+		   پنج‌تایی نصف پنل را خالی می‌گذاشت. */
+		.demo-swatches {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--rk-space-1);
+		}
+
+		.demo-swatches > .demo-swatch {
+			flex: 1 1 96px;
+		}
+
+		.demo-swatch {
+			border: var(--rk-border-width) solid var(--rk-color-border);
+			border-radius: var(--rk-radius-md);
+			overflow: hidden;
+		}
+
+		.demo-swatch i {
+			display: block;
+			height: var(--rk-space-6);
+		}
+
+		.demo-swatch span {
+			display: block;
+			padding: var(--rk-space-05) var(--rk-space-1);
+			background-color: var(--rk-color-surface);
+			border-block-start: var(--rk-border-width) solid var(--rk-color-border-subtle);
+			font-family: var(--rk-font-family-mono);
+			font-size: var(--rk-font-size-2xs);
+			color: var(--rk-color-text-muted);
+			direction: ltr;
+			text-align: left;
+		}
+
+		/* ---- شبکهٔ آیکون ---- */
+		.demo-icons {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+			gap: var(--rk-space-1);
+		}
+
+		.demo-icon {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: var(--rk-space-1);
+			padding: var(--rk-space-15) var(--rk-space-05);
+			border: var(--rk-border-width) solid var(--rk-color-border-subtle);
+			border-radius: var(--rk-radius-md);
+			color: var(--rk-color-text);
+		}
+
+		.demo-icon code {
+			font-family: var(--rk-font-family-mono);
+			font-size: var(--rk-font-size-2xs);
+			color: var(--rk-color-text-muted);
+			direction: ltr;
+		}
+
+		/* ---- مقیاس فاصله ---- */
+		.demo-scale {
+			display: flex;
+			align-items: flex-end;
+			gap: var(--rk-space-1);
+		}
+
+		.demo-scale div {
+			text-align: center;
+			font-family: var(--rk-font-family-mono);
+			font-size: var(--rk-font-size-2xs);
+			color: var(--rk-color-text-muted);
+		}
+
+		.demo-scale i {
+			display: block;
+			margin-block-end: var(--rk-space-05);
+			background-color: var(--rk-color-brand-300);
+			border-radius: var(--rk-radius-sm);
+		}
+
+		.demo-warn {
+			display: none;
+			margin-block-end: var(--rk-space-3);
+			padding: var(--rk-space-15) var(--rk-space-2);
+			background-color: var(--rk-color-warning-bg);
+			border: var(--rk-border-width) solid var(--rk-color-warning-border);
+			border-radius: var(--rk-radius-md);
+			font-size: var(--rk-font-size-sm);
+			color: var(--rk-color-warning);
+		}
+	</style>
+</head>
+
+<body class="rk-root">
+<div class="demo">
+
+	<header class="demo-head">
+		<img class="demo-mark" src="../assets/brand/logo-rahkarnet.svg"
+			alt="راهکارنت" width="40" height="40">
+		<div>
+			<h1 class="rk-title">rahkar-ui</h1>
+			<p class="rk-subtitle">دیزاین سیستم مشترک پلاگین‌های راهکار — نسخهٔ <span class="rk-mono">0.1.0</span></p>
+		</div>
+	</header>
+
+	<div class="demo-warn" id="file-warning">
+		این صفحه با پروتکل <span class="rk-mono">file://</span> باز شده و آیکون‌ها لود نمی‌شوند.
+		آن را روی وب‌سرور باز کنید: <span class="rk-mono">http://localhost/rahkar-ui/demo/</span>
+	</div>
+
+	<!-- ================= رنگ ================= -->
+	<section class="demo-section">
+		<h2>رنگ</h2>
+		<p class="demo-note">پالت عمداً محدود است: یک برند، یک خنثی، چهار وضعیت. رنگ برند فعلاً جای‌گذار است.</p>
+		<div class="demo-panel">
+			<div class="demo-swatches">
+				<div class="demo-swatch"><i style="background:var(--rk-color-brand-100)"></i><span>brand-100</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-brand-300)"></i><span>brand-300</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-brand-500)"></i><span>brand-500</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-brand-700)"></i><span>brand-700</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-brand-900)"></i><span>brand-900</span></div>
+			</div>
+			<div class="demo-swatches" style="margin-block-start:var(--rk-space-1)">
+				<div class="demo-swatch"><i style="background:var(--rk-color-neutral-50)"></i><span>neutral-50</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-neutral-200)"></i><span>neutral-200</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-neutral-400)"></i><span>neutral-400</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-neutral-600)"></i><span>neutral-600</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-neutral-800)"></i><span>neutral-800</span></div>
+			</div>
+			<div class="demo-swatches" style="margin-block-start:var(--rk-space-1)">
+				<div class="demo-swatch"><i style="background:var(--rk-color-success)"></i><span>success</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-error)"></i><span>error</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-warning)"></i><span>warning</span></div>
+				<div class="demo-swatch"><i style="background:var(--rk-color-info)"></i><span>info</span></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= تایپوگرافی و فاصله ================= -->
+	<section class="demo-section">
+		<h2>تایپوگرافی و فاصله‌گذاری</h2>
+		<p class="demo-note">وزیرمتن با سه وزن؛ مقیاس فاصله بر پایهٔ ۸ پیکسل با دو نیم‌پله.</p>
+		<div class="demo-panel">
+			<div class="demo-row">
+				<span class="demo-label">وزن‌ها</span>
+				<div>
+					<div style="font-weight:var(--rk-font-weight-regular);font-size:var(--rk-font-size-lg)">وزن ۴۰۰ — متن اصلی و توضیحات</div>
+					<div style="font-weight:var(--rk-font-weight-medium);font-size:var(--rk-font-size-lg)">وزن ۵۰۰ — برچسب فیلدها و دکمه‌ها</div>
+					<div style="font-weight:var(--rk-font-weight-bold);font-size:var(--rk-font-size-lg)">وزن ۷۰۰ — تیترها و عنوان کارت‌ها</div>
+				</div>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">مقیاس اندازه</span>
+				<div style="display:flex;align-items:baseline;gap:var(--rk-space-2);flex-wrap:wrap">
+					<span style="font-size:var(--rk-font-size-xs)">۱۲</span>
+					<span style="font-size:var(--rk-font-size-sm)">۱۳</span>
+					<span style="font-size:var(--rk-font-size-md)">۱۴</span>
+					<span style="font-size:var(--rk-font-size-lg)">۱۶</span>
+					<span style="font-size:var(--rk-font-size-xl)">۱۸</span>
+					<span style="font-size:var(--rk-font-size-2xl)">۲۲</span>
+					<span style="font-size:var(--rk-font-size-3xl)">۲۸</span>
+				</div>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">فاصله‌گذاری</span>
+				<div class="demo-scale">
+					<div><i style="width:var(--rk-space-05);height:var(--rk-space-05)"></i>05</div>
+					<div><i style="width:var(--rk-space-1);height:var(--rk-space-1)"></i>1</div>
+					<div><i style="width:var(--rk-space-2);height:var(--rk-space-2)"></i>2</div>
+					<div><i style="width:var(--rk-space-3);height:var(--rk-space-3)"></i>3</div>
+					<div><i style="width:var(--rk-space-4);height:var(--rk-space-4)"></i>4</div>
+					<div><i style="width:var(--rk-space-6);height:var(--rk-space-6)"></i>6</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= دکمه ================= -->
+	<section class="demo-section">
+		<h2>دکمه</h2>
+		<p class="demo-note">سه حالت: اصلی، ثانویه، مخرب — در سه اندازه.</p>
+		<div class="demo-panel">
+			<div class="demo-row">
+				<span class="demo-label">حالت‌ها</span>
+				<button class="rk-button rk-button--primary">ذخیرهٔ تنظیمات</button>
+				<button class="rk-button rk-button--secondary">انصراف</button>
+				<button class="rk-button rk-button--destructive">حذف ماژول</button>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">با آیکون</span>
+				<button class="rk-button rk-button--primary">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-check"></use></svg>
+					تأیید و اعمال
+				</button>
+				<button class="rk-button rk-button--secondary">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-refresh"></use></svg>
+					همگام‌سازی
+				</button>
+				<button class="rk-button rk-button--secondary rk-button--icon-only" aria-label="تنظیمات">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-settings"></use></svg>
+				</button>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">اندازه‌ها</span>
+				<button class="rk-button rk-button--primary rk-button--sm">کوچک</button>
+				<button class="rk-button rk-button--primary">متوسط</button>
+				<button class="rk-button rk-button--primary rk-button--lg">بزرگ</button>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">غیرفعال</span>
+				<button class="rk-button rk-button--primary" disabled>اصلی</button>
+				<button class="rk-button rk-button--secondary" disabled>ثانویه</button>
+				<button class="rk-button rk-button--destructive" disabled>مخرب</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= سوییچ ================= -->
+	<section class="demo-section">
+		<h2>سوییچ</h2>
+		<p class="demo-note">مستطیلی و نیمه‌تیز، نه کپسولی. اینجا مارک‌آپ ساده است؛ در ری‌اکت همین استایل روی <span class="rk-mono">FormToggle</span> می‌نشیند.</p>
+		<div class="demo-panel">
+			<div class="demo-row">
+				<span class="demo-label">پایه</span>
+				<div class="rk-toggle">
+					<span class="rk-toggle__control">
+						<input type="checkbox" id="t1" checked>
+						<span class="rk-toggle__track"></span>
+						<span class="rk-toggle__thumb"></span>
+					</span>
+					<div class="rk-toggle__text">
+						<label class="rk-toggle__label" for="t1">ارسال پیامک پس از ثبت سفارش</label>
+						<span class="rk-toggle__help">برای مشتری پیامک تأیید سفارش فرستاده می‌شود.</span>
+					</div>
+				</div>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">خاموش</span>
+				<div class="rk-toggle">
+					<span class="rk-toggle__control">
+						<input type="checkbox" id="t2">
+						<span class="rk-toggle__track"></span>
+						<span class="rk-toggle__thumb"></span>
+					</span>
+					<div class="rk-toggle__text">
+						<label class="rk-toggle__label" for="t2">حالت آزمایشی درگاه پرداخت</label>
+					</div>
+				</div>
+			</div>
+			<div class="demo-row">
+				<span class="demo-label">غیرفعال</span>
+				<div class="rk-toggle is-disabled">
+					<span class="rk-toggle__control">
+						<input type="checkbox" id="t3" disabled>
+						<span class="rk-toggle__track"></span>
+						<span class="rk-toggle__thumb"></span>
+					</span>
+					<div class="rk-toggle__text">
+						<label class="rk-toggle__label" for="t3">نیازمند نسخهٔ حرفه‌ای</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= فیلد ورودی ================= -->
+	<section class="demo-section">
+		<h2>فیلد ورودی</h2>
+		<div class="demo-panel">
+			<div class="rk-field-row">
+				<div class="rk-field">
+					<label class="rk-field__label" for="f1">نام فروشگاه</label>
+					<input class="rk-field__input" id="f1" type="text" value="فروشگاه نمونه">
+					<p class="rk-field__help">در پیامک‌ها و فاکتور نمایش داده می‌شود.</p>
+				</div>
+
+				<div class="rk-field rk-field--mono">
+					<label class="rk-field__label" for="f2">کلید API<span class="rk-field__required">*</span></label>
+					<input class="rk-field__input" id="f2" type="text" placeholder="sk_live_00000000">
+					<p class="rk-field__help">از پنل درگاه پرداخت کپی کنید.</p>
+				</div>
+			</div>
+
+			<div class="rk-field-row" style="margin-block-start:var(--rk-space-2)">
+				<div class="rk-field rk-field--error">
+					<label class="rk-field__label" for="f3">کد پستی</label>
+					<input class="rk-field__input" id="f3" type="text" value="۱۲۳">
+					<p class="rk-field__error">
+						<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+						کد پستی باید ۱۰ رقم باشد.
+					</p>
+				</div>
+
+				<div class="rk-field">
+					<label class="rk-field__label" for="f4">غیرفعال</label>
+					<input class="rk-field__input" id="f4" type="text" value="قابل ویرایش نیست" disabled>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= کارت ماژول ================= -->
+	<section class="demo-section">
+		<h2>کارت ماژول</h2>
+		<p class="demo-note">سوییچ‌ها زنده‌اند — بزنید تا حالت روشن/خاموش را ببینید. کارت چهارم حالت سوم است: «قابل روشن‌کردن نیست».</p>
+		<div class="rk-card-grid">
+
+			<div class="rk-card rk-card--on" data-card>
+				<div class="rk-card__header">
+					<span class="rk-card__glyph">
+						<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-truck"></use></svg>
+					</span>
+					<div class="rk-card__heading">
+						<h3 class="rk-card__title">
+							پست پیشتاز
+							<span class="rk-badge rk-badge--success">فعال</span>
+						</h3>
+						<p class="rk-card__description">محاسبهٔ خودکار هزینهٔ ارسال بر اساس وزن و استان مقصد.</p>
+					</div>
+					<div class="rk-card__control">
+						<span class="rk-toggle__control">
+							<input type="checkbox" checked aria-label="پست پیشتاز" data-card-toggle>
+							<span class="rk-toggle__track"></span>
+							<span class="rk-toggle__thumb"></span>
+						</span>
+					</div>
+				</div>
+				<div class="rk-card__body">
+					<div class="rk-field">
+						<label class="rk-field__label" for="c1">هزینهٔ پایه (تومان)</label>
+						<input class="rk-field__input" id="c1" type="text" value="۴۵٬۰۰۰">
+					</div>
+				</div>
+				<div class="rk-card__footer rk-card__footer--between">
+					<span class="rk-mono" style="color:var(--rk-color-text-muted);font-size:var(--rk-font-size-2xs)">v1.4.0</span>
+					<button class="rk-button rk-button--secondary rk-button--sm">تنظیمات بیشتر</button>
+				</div>
+			</div>
+
+			<div class="rk-card rk-card--off" data-card>
+				<div class="rk-card__header">
+					<span class="rk-card__glyph">
+						<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-receipt"></use></svg>
+					</span>
+					<div class="rk-card__heading">
+						<h3 class="rk-card__title">
+							فاکتور رسمی
+							<span class="rk-badge">غیرفعال</span>
+						</h3>
+						<p class="rk-card__description">صدور فاکتور رسمی با شمارهٔ اقتصادی برای سفارش‌های شرکتی.</p>
+					</div>
+					<div class="rk-card__control">
+						<span class="rk-toggle__control">
+							<input type="checkbox" aria-label="فاکتور رسمی" data-card-toggle>
+							<span class="rk-toggle__track"></span>
+							<span class="rk-toggle__thumb"></span>
+						</span>
+					</div>
+				</div>
+				<div class="rk-card__body">
+					<div class="rk-field">
+						<label class="rk-field__label" for="c2">شمارهٔ اقتصادی</label>
+						<input class="rk-field__input" id="c2" type="text" placeholder="۱۲ رقم">
+					</div>
+				</div>
+				<div class="rk-card__footer">
+					<button class="rk-button rk-button--destructive rk-button--sm">
+						<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-trash"></use></svg>
+						حذف
+					</button>
+				</div>
+			</div>
+
+			<div class="rk-card rk-card--on" data-card>
+				<div class="rk-card__header">
+					<span class="rk-card__glyph">
+						<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-shield"></use></svg>
+					</span>
+					<div class="rk-card__heading">
+						<h3 class="rk-card__title">
+							ضد تقلب
+							<span class="rk-badge rk-badge--warning">آزمایشی</span>
+						</h3>
+						<p class="rk-card__description">بررسی سفارش‌های مشکوک پیش از تأیید پرداخت.</p>
+					</div>
+					<div class="rk-card__control">
+						<span class="rk-toggle__control">
+							<input type="checkbox" checked aria-label="ضد تقلب" data-card-toggle>
+							<span class="rk-toggle__track"></span>
+							<span class="rk-toggle__thumb"></span>
+						</span>
+					</div>
+				</div>
+				<div class="rk-card__body">
+					<p style="margin:0">در ۳۰ روز گذشته <strong>۴</strong> سفارش مشکوک علامت‌گذاری شده است.</p>
+				</div>
+				<div class="rk-card__footer">
+					<button class="rk-button rk-button--secondary rk-button--sm">گزارش</button>
+					<button class="rk-button rk-button--primary rk-button--sm">اعمال</button>
+				</div>
+			</div>
+
+			<div class="rk-card rk-card--blocked">
+				<div class="rk-card__header">
+					<span class="rk-card__glyph">
+						<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-lock"></use></svg>
+					</span>
+					<div class="rk-card__heading">
+						<h3 class="rk-card__title">
+							ورود پیامکی
+							<span class="rk-badge rk-badge--warning">قفل</span>
+						</h3>
+						<p class="rk-card__description">ورود و ثبت‌نام مشتری با کد یک‌بارمصرف پیامکی.</p>
+						<ul class="rk-card__blockers">
+							<li class="rk-card__blocker">
+								<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+								ماژول «اعلان‌ها» باید روشن باشد.
+							</li>
+							<li class="rk-card__blocker">
+								<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+								هیچ سرویس‌دهندهٔ پیامکی پیکربندی نشده است.
+							</li>
+						</ul>
+					</div>
+					<div class="rk-card__control">
+						<span class="rk-toggle__control">
+							<input type="checkbox" aria-label="ورود پیامکی" disabled>
+							<span class="rk-toggle__track"></span>
+							<span class="rk-toggle__thumb"></span>
+						</span>
+					</div>
+				</div>
+				<div class="rk-card__footer">
+					<button class="rk-button rk-button--secondary rk-button--sm">رفع پیش‌نیازها</button>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- ================= کنترل‌های فرم ================= -->
+	<section class="demo-section">
+		<h2>کنترل‌های فرم</h2>
+		<p class="demo-note">همان نوع‌هایی که <span class="rk-mono">FieldRenderer</span> تولید می‌کند: متن، عدد، چندخطی، کشویی، چک‌باکس — همه داخل <span class="rk-mono">FormRow</span> به‌جای جدول <span class="rk-mono">form-table</span>.</p>
+		<div class="demo-panel">
+			<div class="rk-form">
+				<div class="rk-form-row">
+					<label class="rk-form-row__label" for="s1">استان مبدأ</label>
+					<div class="rk-form-row__control">
+						<div class="rk-select">
+							<span class="rk-select__wrap">
+								<select class="rk-select__input" id="s1">
+									<option>تهران</option>
+									<option>البرز</option>
+									<option>اصفهان</option>
+								</select>
+								<svg class="rk-icon rk-icon--sm rk-select__arrow"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+							</span>
+						</div>
+						<p class="rk-form-row__help">مبنای محاسبهٔ هزینهٔ ارسال.</p>
+					</div>
+				</div>
+
+				<div class="rk-form-row">
+					<label class="rk-form-row__label" for="n1">مهلت پرداخت<span class="rk-form-row__required">*</span></label>
+					<div class="rk-form-row__control">
+						<div class="rk-number rk-field">
+							<div class="rk-number__row">
+								<input class="rk-field__input rk-number__input" id="n1" type="number" value="3" min="1" max="30">
+								<span class="rk-number__unit">روز</span>
+							</div>
+						</div>
+						<p class="rk-form-row__help">سفارش پرداخت‌نشده پس از این مدت لغو می‌شود. <span class="rk-number__range">1-30</span></p>
+					</div>
+				</div>
+
+				<div class="rk-form-row">
+					<label class="rk-form-row__label" for="t1x">قالب پیامک</label>
+					<div class="rk-form-row__control">
+						<div class="rk-textarea rk-textarea--mono">
+							<textarea class="rk-textarea__input" id="t1x" rows="3">Order {order_id} confirmed. Total: {total}</textarea>
+						</div>
+						<p class="rk-form-row__help">متغیرهای مجاز در راهنمای ماژول آمده است.</p>
+					</div>
+				</div>
+
+				<div class="rk-form-row">
+					<label class="rk-form-row__label" for="sw1">ارسال پیامک تأیید</label>
+					<div class="rk-form-row__control">
+						<div class="rk-toggle">
+							<span class="rk-toggle__control">
+								<input type="checkbox" id="sw1" checked>
+								<span class="rk-toggle__track"></span>
+								<span class="rk-toggle__thumb"></span>
+							</span>
+							<div class="rk-toggle__text">
+								<span class="rk-toggle__help">پس از ثبت هر سفارش یک پیامک فرستاده می‌شود.</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="rk-form-row">
+					<label class="rk-form-row__label" for="e1">کد پستی</label>
+					<div class="rk-form-row__control">
+						<div class="rk-field rk-field--error">
+							<input class="rk-field__input" id="e1" type="text" value="123">
+						</div>
+						<p class="rk-form-row__error">
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+							کد پستی باید ۱۰ رقم باشد.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= پیام ================= -->
+	<section class="demo-section">
+		<h2>پیام</h2>
+		<p class="demo-note">جایگزین <span class="rk-mono">notice notice-success</span> وردپرس.</p>
+		<div class="demo-panel">
+			<div class="rk-notice rk-notice--success">
+				<svg class="rk-icon rk-notice__glyph"><use href="../src/icons/sprite.svg#rk-check"></use></svg>
+				<span class="rk-notice__body"><span class="rk-notice__content">تنظیمات ذخیره شد.</span></span>
+				<button class="rk-notice__dismiss" aria-label="بستن">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-close"></use></svg>
+				</button>
+			</div>
+
+			<div class="rk-notice rk-notice--error">
+				<svg class="rk-icon rk-notice__glyph"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+				<span class="rk-notice__body">
+					<strong class="rk-notice__title">ارسال پیامک ناموفق بود</strong>
+					<span class="rk-notice__content">سرویس‌دهنده پاسخ داد: اعتبار حساب کافی نیست.</span>
+					<span class="rk-notice__actions">
+						<button class="rk-button rk-button--secondary rk-button--sm">تلاش دوباره</button>
+						<button class="rk-button rk-button--secondary rk-button--sm">دیدن گزارش</button>
+					</span>
+				</span>
+			</div>
+
+			<div class="rk-notice rk-notice--warning">
+				<svg class="rk-icon rk-notice__glyph"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+				<span class="rk-notice__body"><span class="rk-notice__content">۹۰٪ ظرفیت جدول گزارش‌ها پر شده است.</span></span>
+			</div>
+
+			<div class="rk-notice rk-notice--info" style="margin-block-end:0">
+				<svg class="rk-icon rk-notice__glyph"><use href="../src/icons/sprite.svg#rk-info"></use></svg>
+				<span class="rk-notice__body"><span class="rk-notice__content">ماژول خاموش هیچ کدی روی سایت اجرا نمی‌کند.</span></span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= نشان ================= -->
+	<section class="demo-section">
+		<h2>نشان</h2>
+		<p class="demo-note">وضعیت ماژول، سطح گزارش، و نتیجهٔ بررسی سلامت — هر سه همین‌اند.</p>
+		<div class="demo-panel">
+			<div class="demo-row">
+				<span class="demo-label">گونه‌ها</span>
+				<span class="rk-badge rk-badge--success"><span class="rk-badge__dot"></span>فعال</span>
+				<span class="rk-badge"><span class="rk-badge__dot"></span>غیرفعال</span>
+				<span class="rk-badge rk-badge--warning">هشدار</span>
+				<span class="rk-badge rk-badge--error">خطا</span>
+				<span class="rk-badge rk-badge--critical">بحرانی</span>
+				<span class="rk-badge rk-badge--info">اطلاع</span>
+				<span class="rk-badge rk-badge--quiet">اشکال‌زدایی</span>
+				<span class="rk-badge rk-badge--brand">حرفه‌ای</span>
+				<span class="rk-badge rk-badge--mono">v1.4.0</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= کاشی آمار ================= -->
+	<section class="demo-section">
+		<h2>کاشی آمار</h2>
+		<p class="demo-note">کاشی «خوب» عمداً خنثی می‌ماند تا قرمزها در نگاه اول به چشم بیایند.</p>
+		<div class="rk-stats">
+			<div class="rk-stat"><strong class="rk-stat__value">۱٬۲۴۰</strong><span class="rk-stat__label">کل گزارش‌ها</span><span class="rk-stat__hint">سقف: ۵٬۰۰۰</span></div>
+			<div class="rk-stat rk-stat--error"><strong class="rk-stat__value">۴</strong><span class="rk-stat__label">خطا</span><span class="rk-stat__hint">۳۰ روز گذشته</span></div>
+			<div class="rk-stat rk-stat--warning"><strong class="rk-stat__value">۱۷</strong><span class="rk-stat__label">هشدار</span><span class="rk-stat__hint">۳۰ روز گذشته</span></div>
+			<div class="rk-stat rk-stat--success"><strong class="rk-stat__value">۹۸٪</strong><span class="rk-stat__label">تحویل موفق پیامک</span></div>
+			<div class="rk-stat rk-stat--brand"><strong class="rk-stat__value">۶</strong><span class="rk-stat__label">ماژول روشن</span><span class="rk-stat__hint">از ۸ ماژول</span></div>
+		</div>
+	</section>
+
+	<!-- ================= تب، نوار ابزار، جدول، صفحه‌بندی ================= -->
+	<section class="demo-section">
+		<h2>تب، نوار ابزار، جدول و صفحه‌بندی</h2>
+		<p class="demo-note">همان چیدمان صفحهٔ گزارش‌ها. تب‌ها لینکی‌اند چون هرکدام یک زیرصفحهٔ جدا در پیشخوان است.</p>
+
+		<nav class="rk-tabs" aria-label="بخش‌های افزونه">
+			<a class="rk-tabs__item" href="#tabs-demo">
+				<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-package"></use></svg>
+				ماژول‌ها
+			</a>
+			<a class="rk-tabs__item" href="#tabs-demo">
+				<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-settings"></use></svg>
+				تنظیمات
+			</a>
+			<a class="rk-tabs__item" href="#tabs-demo">
+				<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-shield"></use></svg>
+				سلامت
+			</a>
+			<a class="rk-tabs__item" href="#tabs-demo" aria-current="page">
+				<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-chart"></use></svg>
+				گزارش‌ها
+				<span class="rk-tabs__count rk-tabs__count--error">۴</span>
+			</a>
+		</nav>
+
+		<div class="rk-toolbar rk-toolbar--attached">
+			<div>
+				<span class="rk-toolbar__label">بخش</span>
+				<div class="rk-select rk-select--sm rk-select--auto">
+					<span class="rk-select__wrap">
+						<select class="rk-select__input"><option>همه بخش‌ها</option><option>پیامک</option><option>ایمیل</option></select>
+						<svg class="rk-icon rk-icon--sm rk-select__arrow"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+					</span>
+				</div>
+			</div>
+			<div>
+				<span class="rk-toolbar__label">سطح</span>
+				<div class="rk-select rk-select--sm rk-select--auto">
+					<span class="rk-select__wrap">
+						<select class="rk-select__input"><option>همه سطوح</option><option>خطا</option><option>هشدار</option></select>
+						<svg class="rk-icon rk-icon--sm rk-select__arrow"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+					</span>
+				</div>
+			</div>
+			<span class="rk-toolbar__spacer"></span>
+			<div class="rk-toolbar__group">
+				<button class="rk-button rk-button--secondary rk-button--sm">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-download"></use></svg>
+					خروجی
+				</button>
+				<button class="rk-button rk-button--destructive rk-button--sm" data-open="m1">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-trash"></use></svg>
+					حذف همه
+				</button>
+			</div>
+		</div>
+
+		<div class="rk-table-wrap">
+			<table class="rk-table rk-table--striped rk-table--hover rk-table--compact">
+				<thead>
+					<tr>
+						<th scope="col" style="width:110px">زمان</th>
+						<th scope="col" style="width:90px">سطح</th>
+						<th scope="col" style="width:90px">بخش</th>
+						<th scope="col">پیام</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="rk-table__mono">14:02:11</td>
+						<td><span class="rk-badge rk-badge--error rk-badge--sm">خطا</span></td>
+						<td>پیامک</td>
+						<td>
+							ارسال به ۰۹۱۲۳۴۵۶۷۸۹ ناموفق بود.
+							<div class="rk-table__detail">{"code":402,"message":"insufficient credit"}</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="rk-table__mono">13:47:03</td>
+						<td><span class="rk-badge rk-badge--warning rk-badge--sm">هشدار</span></td>
+						<td>صف</td>
+						<td>تلاش دوم برای ارسال ایمیل سفارش ۱۰۲۴.</td>
+					</tr>
+					<tr>
+						<td class="rk-table__mono">13:12:55</td>
+						<td><span class="rk-badge rk-badge--quiet rk-badge--sm">اطلاع</span></td>
+						<td>ماژول</td>
+						<td>ماژول «تقویم شمسی» روشن شد.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="rk-table-foot">
+			<span class="rk-table-count">نمایش ۱ تا ۳ از ۱٬۲۴۰ رکورد</span>
+			<nav class="rk-pagination" aria-label="صفحه‌بندی">
+				<button class="rk-pagination__item" aria-label="صفحهٔ قبل" disabled>
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-chevron-right"></use></svg>
+				</button>
+				<span class="rk-pagination__item" aria-current="page">۱</span>
+				<button class="rk-pagination__item">۲</button>
+				<button class="rk-pagination__item">۳</button>
+				<span class="rk-pagination__gap">…</span>
+				<button class="rk-pagination__item">۶۲</button>
+				<button class="rk-pagination__item" aria-label="صفحهٔ بعد">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-chevron-left"></use></svg>
+				</button>
+			</nav>
+		</div>
+	</section>
+
+	<!-- ================= پنل، حالت خالی، بلوک کد ================= -->
+	<section class="demo-section">
+		<h2>پنل، حالت خالی و بلوک کد</h2>
+		<p class="demo-note">پنل با کارت ماژول فرق دارد: سوییچ و نوار وضعیت ندارد و فقط تنظیمات مرتبط را گروه می‌کند.</p>
+		<div class="rk-panel">
+			<header class="rk-panel__header">
+				<div class="rk-panel__heading">
+					<h2 class="rk-panel__title">
+						<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-shield"></use></svg>
+						بررسی سلامت
+					</h2>
+					<p class="rk-panel__description">نتیجهٔ آخرین بررسی پیش‌نیازهای افزونه.</p>
+				</div>
+				<div class="rk-panel__aside"><span class="rk-badge rk-badge--success">همه‌چیز سالم</span></div>
+			</header>
+			<div class="rk-panel__body">
+				<div class="rk-panel__section">
+					<h3 class="rk-panel__section-title">مسیر نوشتنی صف</h3>
+					<pre class="rk-code">/wp-content/uploads/rahkar-wp/queue   [writable]</pre>
+				</div>
+				<div class="rk-panel__section">
+					<h3 class="rk-panel__section-title">ماژول‌های روشن</h3>
+					<div class="rk-empty rk-empty--inset">
+						<span class="rk-empty__glyph">
+							<svg class="rk-icon rk-icon--lg"><use href="../src/icons/sprite.svg#rk-plug"></use></svg>
+						</span>
+						<h3 class="rk-empty__title">هیچ ماژول روشنی وجود ندارد</h3>
+						<p class="rk-empty__description">ماژول خاموش هیچ کدی روی سایت اجرا نمی‌کند. برای شروع یکی را روشن کنید.</p>
+						<div class="rk-empty__actions">
+							<button class="rk-button rk-button--primary">رفتن به ماژول‌ها</button>
+							<button class="rk-button rk-button--secondary">راهنما</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="rk-panel__footer">
+				<button class="rk-button rk-button--secondary">بررسی دوباره</button>
+				<button class="rk-button rk-button--primary">ذخیرهٔ تنظیمات</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- ================= تب عمودی ================= -->
+	<section class="demo-section">
+		<h2>تب عمودی سلسله‌مراتبی</h2>
+		<p class="demo-note">برای صفحهٔ تنظیماتی که قرار است بزرگ شود. روی آیتم‌ها کلیک کنید؛ گروه‌ها باز و بسته می‌شوند و جست‌وجو کار می‌کند.</p>
+
+		<form class="rk-vtabs-layout" id="vform" method="post" onsubmit="return false">
+			<nav class="rk-vtabs" aria-label="بخش‌های تنظیمات" id="vtabs">
+				<div class="rk-vtabs__search">
+					<svg class="rk-icon rk-icon--sm rk-vtabs__search-icon"><use href="../src/icons/sprite.svg#rk-search"></use></svg>
+					<input type="search" placeholder="جست‌وجوی تنظیم…" aria-label="جست‌وجو در تنظیمات" id="vtabs-q">
+				</div>
+
+				<ul class="rk-vtabs__list">
+					<li>
+						<button type="button" class="rk-vtabs__item" aria-current="page" data-tab="general">
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-settings"></use></svg>
+							<span class="rk-vtabs__label">عمومی</span>
+						</button>
+					</li>
+
+					<li class="rk-vtabs__group" data-open="true">
+						<button type="button" class="rk-vtabs__item rk-vtabs__group-toggle" aria-expanded="true" data-group>
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-truck"></use></svg>
+							<span class="rk-vtabs__label">حمل‌ونقل</span>
+							<svg class="rk-icon rk-icon--sm rk-vtabs__chevron"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+						</button>
+						<ul class="rk-vtabs__children">
+							<li><button type="button" class="rk-vtabs__item" data-tab="ship-methods"><span class="rk-vtabs__label">روش‌های ارسال</span></button></li>
+							<li><button type="button" class="rk-vtabs__item" data-tab="ship-zones" data-static-dirty><span class="rk-vtabs__label">مناطق ارسال</span><span class="rk-vtabs__dirty" title="تغییر ذخیره‌نشده"></span></button></li>
+							<li><button type="button" class="rk-vtabs__item" data-tab="ship-cost"><span class="rk-vtabs__label">هزینه و وزن</span></button></li>
+						</ul>
+					</li>
+
+					<li class="rk-vtabs__group" data-open="false">
+						<button type="button" class="rk-vtabs__item rk-vtabs__group-toggle" aria-expanded="false" data-group>
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-receipt"></use></svg>
+							<span class="rk-vtabs__label">فاکتور و چاپ</span>
+							<svg class="rk-icon rk-icon--sm rk-vtabs__chevron"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+						</button>
+						<ul class="rk-vtabs__children">
+							<li><button type="button" class="rk-vtabs__item" data-tab="inv-layout"><span class="rk-vtabs__label">چیدمان فاکتور</span></button></li>
+							<li><button type="button" class="rk-vtabs__item" data-tab="inv-legal"><span class="rk-vtabs__label">اطلاعات حقوقی</span></button></li>
+						</ul>
+					</li>
+
+					<li class="rk-vtabs__group" data-open="false">
+						<button type="button" class="rk-vtabs__item rk-vtabs__group-toggle" aria-expanded="false" data-group>
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-key"></use></svg>
+							<span class="rk-vtabs__label">ورود پیامکی</span>
+							<svg class="rk-icon rk-icon--sm rk-vtabs__chevron"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+						</button>
+						<ul class="rk-vtabs__children">
+							<li><button type="button" class="rk-vtabs__item" data-tab="otp-code"><span class="rk-vtabs__label">کد یک‌بارمصرف</span></button></li>
+							<li><button type="button" class="rk-vtabs__item" data-tab="otp-limit"><span class="rk-vtabs__label">محدودیت ارسال</span></button></li>
+						</ul>
+					</li>
+
+					<li>
+						<button type="button" class="rk-vtabs__item" data-tab="logs">
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-chart"></use></svg>
+							<span class="rk-vtabs__label">گزارش‌ها</span>
+							<span class="rk-vtabs__count rk-vtabs__count--error">۴</span>
+						</button>
+					</li>
+
+					<li>
+						<button type="button" class="rk-vtabs__item" data-tab="advanced" disabled>
+							<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-lock"></use></svg>
+							<span class="rk-vtabs__label">پیشرفته</span>
+						</button>
+					</li>
+				</ul>
+			</nav>
+
+			<div>
+				<section class="rk-vtabs-panel" data-panel="general" data-rk-scope="general">
+					<div class="rk-panel">
+						<header class="rk-panel__header">
+							<div class="rk-panel__heading">
+								<h2 class="rk-panel__title">عمومی</h2>
+								<p class="rk-panel__description">تنظیماتی که روی همهٔ ماژول‌ها اثر می‌گذارد.</p>
+							</div>
+						</header>
+						<div class="rk-panel__body">
+							<div class="rk-form">
+								<div class="rk-form-row">
+									<label class="rk-form-row__label" for="v1">نام فروشگاه</label>
+									<div class="rk-form-row__control">
+										<div class="rk-field"><input class="rk-field__input" id="v1" name="rahkar[general][shop_name]" type="text" value="فروشگاه نمونه"></div>
+										<p class="rk-form-row__help">در پیامک‌ها و فاکتور نمایش داده می‌شود.</p>
+									</div>
+								</div>
+								<div class="rk-form-row">
+									<label class="rk-form-row__label" for="v2">حالت اشکال‌زدایی</label>
+									<div class="rk-form-row__control">
+										<div class="rk-toggle">
+											<span class="rk-toggle__control">
+												<input type="checkbox" id="v2" name="rahkar[general][debug]" value="1">
+												<span class="rk-toggle__track"></span>
+												<span class="rk-toggle__thumb"></span>
+											</span>
+											<div class="rk-toggle__text"><span class="rk-toggle__help">گزارش‌های سطح پایین هم ثبت می‌شوند.</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="rk-panel__footer">
+							<button class="rk-button rk-button--primary">ذخیرهٔ تنظیمات</button>
+						</div>
+					</div>
+				</section>
+
+				<section class="rk-vtabs-panel" data-panel="ship-zones" data-rk-scope="ship-zones" hidden>
+					<div class="rk-panel">
+						<header class="rk-panel__header">
+							<div class="rk-panel__heading">
+								<h2 class="rk-panel__title">مناطق ارسال</h2>
+								<p class="rk-panel__description">تعیین اینکه به کدام استان‌ها ارسال دارید.</p>
+							</div>
+							<div class="rk-panel__aside"><span class="rk-badge rk-badge--warning">ذخیره‌نشده</span></div>
+						</header>
+						<div class="rk-panel__body">
+							<div class="rk-form">
+								<div class="rk-form-row">
+									<label class="rk-form-row__label" for="v3">استان مبدأ</label>
+									<div class="rk-form-row__control">
+										<div class="rk-select">
+											<span class="rk-select__wrap">
+												<select class="rk-select__input" id="v3" name="rahkar[ship-zones][origin]"><option>تهران</option><option>البرز</option></select>
+												<svg class="rk-icon rk-icon--sm rk-select__arrow"><use href="../src/icons/sprite.svg#rk-chevron-down"></use></svg>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="rk-panel__footer">
+							<button class="rk-button rk-button--primary">ذخیرهٔ تنظیمات</button>
+						</div>
+					</div>
+				</section>
+
+				<section class="rk-vtabs-panel" data-panel="logs" hidden>
+					<div class="rk-panel">
+						<header class="rk-panel__header">
+							<div class="rk-panel__heading"><h2 class="rk-panel__title">گزارش‌ها</h2></div>
+						</header>
+						<div class="rk-panel__body">
+							<div class="rk-stats">
+								<div class="rk-stat"><strong class="rk-stat__value">۱٬۲۴۰</strong><span class="rk-stat__label">کل گزارش‌ها</span></div>
+								<div class="rk-stat rk-stat--error"><strong class="rk-stat__value">۴</strong><span class="rk-stat__label">خطا</span></div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="rk-vtabs-panel" data-panel="__fallback" hidden>
+					<div class="rk-panel">
+						<div class="rk-panel__body">
+							<div class="rk-empty rk-empty--inset">
+								<span class="rk-empty__glyph">
+									<svg class="rk-icon rk-icon--lg"><use href="../src/icons/sprite.svg#rk-settings"></use></svg>
+								</span>
+								<h3 class="rk-empty__title">این تب در نمونه محتوا ندارد</h3>
+								<p class="rk-empty__description">فقط سه تب «عمومی»، «مناطق ارسال» و «گزارش‌ها» در این صفحهٔ نمایشی پر شده‌اند.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="rk-notice rk-notice--info" style="margin-block-start:var(--rk-space-2)">
+					<svg class="rk-icon rk-notice__glyph"><use href="../src/icons/sprite.svg#rk-info"></use></svg>
+					<span class="rk-notice__body">
+						<strong class="rk-notice__title">چه چیزی واقعاً POST می‌شود</strong>
+						<span class="rk-notice__content">
+							یک فیلد را عوض کنید و ببینید فهرست زیر چطور رشد می‌کند. فیلد دست‌نخورده ارسال نمی‌شود،
+							پس حجم POST به تعداد تغییرات بستگی دارد نه به بزرگی صفحه.
+						</span>
+						<span class="rk-notice__actions" style="display:block">
+							<pre class="rk-code rk-code--light" id="vform-out" style="margin-block-start:var(--rk-space-1)">— هنوز چیزی عوض نشده؛ POST خالی می‌رود —</pre>
+						</span>
+					</span>
+				</div>
+			</div>
+		</form>
+	</section>
+
+	<!-- ================= مودال ================= -->
+	<section class="demo-section">
+		<h2>مودال</h2>
+		<p class="demo-note">جایگزین <span class="rk-mono">confirm()</span> مرورگر. متن‌ها واقعی‌اند — از صفحهٔ گزارش‌های پلاگین راهکار.</p>
+		<div class="demo-panel">
+			<div class="demo-row">
+				<span class="demo-label">کار مخرب</span>
+				<button class="rk-button rk-button--destructive" data-open="m1">حذف همه گزارش‌ها</button>
+				<button class="rk-button rk-button--secondary" data-open="m2">حذف رکوردهای قدیمی</button>
+				<button class="rk-button rk-button--secondary" data-open="m3">مودال معمولی</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- مودال ۱: برگشت‌ناپذیر -->
+	<div class="rk-modal-overlay" id="m1" hidden>
+		<div class="rk-modal rk-modal--sm" role="dialog" aria-modal="true" aria-labelledby="m1-t">
+			<div class="rk-modal__header">
+				<div class="rk-modal__heading"><h2 class="rk-modal__title" id="m1-t">حذف همه گزارش‌ها</h2></div>
+				<button class="rk-modal__close" data-close aria-label="بستن">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-close"></use></svg>
+				</button>
+			</div>
+			<div class="rk-modal__content">
+				<div class="rk-modal__body">
+					<div class="rk-confirm rk-confirm--danger">
+						<span class="rk-confirm__glyph">
+							<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+						</span>
+						<div class="rk-confirm__text">
+							<p class="rk-confirm__message">همه گزارش‌های ثبت‌شده پاک می‌شوند؛ شامل خطاهای ارسال پیامک و ایمیل.</p>
+							<strong class="rk-confirm__consequence">این کار برگشت‌پذیر نیست و تاریخچه بازیابی نمی‌شود.</strong>
+						</div>
+					</div>
+				</div>
+				<div class="rk-modal__footer">
+					<button class="rk-button rk-button--secondary" data-close>انصراف</button>
+					<button class="rk-button rk-button--destructive" data-close>حذف همیشگی</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- مودال ۲: پرریسک ولی برگشت‌پذیر -->
+	<div class="rk-modal-overlay" id="m2" hidden>
+		<div class="rk-modal rk-modal--sm" role="dialog" aria-modal="true" aria-labelledby="m2-t">
+			<div class="rk-modal__header">
+				<div class="rk-modal__heading"><h2 class="rk-modal__title" id="m2-t">حذف رکوردهای قدیمی</h2></div>
+				<button class="rk-modal__close" data-close aria-label="بستن">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-close"></use></svg>
+				</button>
+			</div>
+			<div class="rk-modal__content">
+				<div class="rk-modal__body">
+					<div class="rk-confirm rk-confirm--warning">
+						<span class="rk-confirm__glyph">
+							<svg class="rk-icon"><use href="../src/icons/sprite.svg#rk-alert"></use></svg>
+						</span>
+						<div class="rk-confirm__text">
+							<p class="rk-confirm__message">گزارش‌های قدیمی‌تر از ۳۰ روز حذف می‌شوند. گزارش‌های تازه دست‌نخورده می‌مانند.</p>
+						</div>
+					</div>
+				</div>
+				<div class="rk-modal__footer">
+					<button class="rk-button rk-button--secondary" data-close>انصراف</button>
+					<button class="rk-button rk-button--primary" data-close>پاک‌سازی</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- مودال ۳: محتوای معمولی با فرم -->
+	<div class="rk-modal-overlay" id="m3" hidden>
+		<div class="rk-modal" role="dialog" aria-modal="true" aria-labelledby="m3-t">
+			<div class="rk-modal__header">
+				<div class="rk-modal__heading"><h2 class="rk-modal__title" id="m3-t">افزودن شهر</h2></div>
+				<button class="rk-modal__close" data-close aria-label="بستن">
+					<svg class="rk-icon rk-icon--sm"><use href="../src/icons/sprite.svg#rk-close"></use></svg>
+				</button>
+			</div>
+			<div class="rk-modal__content">
+				<div class="rk-modal__body">
+					<p class="rk-modal__subtitle">شهر افزوده‌شده در فهرست استان انتخابی و در فرم تسویه‌حساب ظاهر می‌شود.</p>
+					<div class="rk-field">
+						<label class="rk-field__label" for="m3-name">نام شهر</label>
+						<input class="rk-field__input" id="m3-name" type="text" placeholder="مثلاً: شهرک صنعتی البرز">
+					</div>
+					<div class="rk-field">
+						<label class="rk-field__label" for="m3-code">کد شهر</label>
+						<input class="rk-field__input" id="m3-code" type="text" placeholder="اختیاری">
+						<p class="rk-field__help">اگر خالی بماند، از روی نام ساخته می‌شود.</p>
+					</div>
+				</div>
+				<div class="rk-modal__footer rk-modal__footer--between">
+					<span class="rk-mono" style="color:var(--rk-color-text-muted);font-size:var(--rk-font-size-2xs)">استان: البرز</span>
+					<span class="rk-button-group">
+						<button class="rk-button rk-button--secondary" data-close>انصراف</button>
+						<button class="rk-button rk-button--primary" data-close>افزودن</button>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ================= آیکون ================= -->
+	<section class="demo-section">
+		<h2>آیکون</h2>
+		<p class="demo-note">شبکهٔ ۲۴، ضخامت ۱٫۷۵، سرِ خط مربعی — عمداً نازک و گرد نیست.</p>
+		<div class="demo-panel">
+			<div class="demo-icons" id="icon-grid"></div>
+		</div>
+	</section>
+
+</div>
+
+<script>
+	// هشدار file:// — اسپرایت بیرونی روی این پروتکل لود نمی‌شود.
+	if ( window.location.protocol === 'file:' ) {
+		document.getElementById( 'file-warning' ).style.display = 'block';
+	}
+
+	// شبکهٔ آیکون‌ها از روی همان فهرستی که Icon.js صادر می‌کند.
+	var ICONS = [ 'power', 'settings', 'check', 'close', 'plus', 'alert', 'info',
+		'refresh', 'trash', 'chevron-down', 'chevron-left', 'chevron-right',
+		'search', 'external', 'shield', 'gauge', 'package', 'truck', 'receipt',
+		'chart', 'lock', 'key', 'copy', 'download', 'plug' ];
+
+	document.getElementById( 'icon-grid' ).innerHTML = ICONS.map( function ( name ) {
+		return '<div class="demo-icon">' +
+			'<svg class="rk-icon rk-icon--lg"><use href="../src/icons/sprite.svg#rk-' + name + '"></use></svg>' +
+			'<code>' + name + '</code>' +
+			'</div>';
+	} ).join( '' );
+
+
+	// تب عمودی — باز/بستهٔ گروه، انتخاب تب، و جست‌وجو
+	( function () {
+		var nav = document.getElementById( 'vtabs' );
+		if ( ! nav ) { return; }
+
+		var panels = document.querySelectorAll( '[data-panel]' );
+
+		function show( key ) {
+			var found = false;
+			panels.forEach( function ( p ) {
+				var match = p.getAttribute( 'data-panel' ) === key;
+				p.hidden = ! match;
+				if ( match ) { found = true; }
+			} );
+			// تبی که محتوا ندارد، حالت خالی می‌گیرد
+			if ( ! found ) {
+				panels.forEach( function ( p ) {
+					p.hidden = p.getAttribute( 'data-panel' ) !== '__fallback';
+				} );
+			}
+		}
+
+		nav.querySelectorAll( '[data-tab]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				nav.querySelectorAll( '[aria-current="page"]' ).forEach( function ( el ) {
+					el.removeAttribute( 'aria-current' );
+				} );
+				btn.setAttribute( 'aria-current', 'page' );
+				show( btn.getAttribute( 'data-tab' ) );
+			} );
+		} );
+
+		nav.querySelectorAll( '[data-group]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () {
+				var li = btn.closest( '.rk-vtabs__group' );
+				var open = li.getAttribute( 'data-open' ) !== 'true';
+				li.setAttribute( 'data-open', open ? 'true' : 'false' );
+				btn.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			} );
+		} );
+
+		var q = document.getElementById( 'vtabs-q' );
+		q.addEventListener( 'input', function () {
+			var needle = q.value.trim().toLowerCase();
+			nav.querySelectorAll( '.rk-vtabs__list > li' ).forEach( function ( li ) {
+				var group = li.classList.contains( 'rk-vtabs__group' );
+				if ( ! needle ) {
+					li.hidden = false;
+					if ( group ) { li.setAttribute( 'data-open', 'true' ); }
+					li.querySelectorAll( '.rk-vtabs__children li' ).forEach( function ( c ) { c.hidden = false; } );
+					return;
+				}
+				var hit = false;
+				li.querySelectorAll( '.rk-vtabs__label' ).forEach( function ( lbl ) {
+					var m = lbl.textContent.toLowerCase().indexOf( needle ) !== -1;
+					var row = lbl.closest( '.rk-vtabs__children li' );
+					if ( row ) { row.hidden = ! m; }
+					if ( m ) { hit = true; }
+				} );
+				li.hidden = ! hit;
+				if ( group && hit ) { li.setAttribute( 'data-open', 'true' ); }
+			} );
+		} );
+	}() );
+
+	// مودال‌ها — نسخهٔ سبکِ همان رفتاری که کامپوننت ری‌اکت از وردپرس می‌گیرد.
+	var lastFocused = null;
+
+	function openModal( id ) {
+		lastFocused = document.activeElement;
+		var overlay = document.getElementById( id );
+		overlay.hidden = false;
+		document.body.style.overflow = 'hidden';
+		var first = overlay.querySelector( 'input, button' );
+		if ( first ) { first.focus(); }
+	}
+
+	function closeModal( overlay ) {
+		overlay.hidden = true;
+		document.body.style.overflow = '';
+		if ( lastFocused ) { lastFocused.focus(); }
+	}
+
+	document.querySelectorAll( '[data-open]' ).forEach( function ( btn ) {
+		btn.addEventListener( 'click', function () {
+			openModal( btn.getAttribute( 'data-open' ) );
+		} );
+	} );
+
+	document.querySelectorAll( '.rk-modal-overlay' ).forEach( function ( overlay ) {
+		overlay.querySelectorAll( '[data-close]' ).forEach( function ( btn ) {
+			btn.addEventListener( 'click', function () { closeModal( overlay ); } );
+		} );
+		// کلیک روی پرده می‌بندد، کلیک داخل قاب نه
+		overlay.addEventListener( 'click', function ( e ) {
+			if ( e.target === overlay ) { closeModal( overlay ); }
+		} );
+	} );
+
+	document.addEventListener( 'keydown', function ( e ) {
+		if ( e.key !== 'Escape' ) { return; }
+		document.querySelectorAll( '.rk-modal-overlay:not([hidden])' )
+			.forEach( closeModal );
+	} );
+
+	// کارت‌ها به سوییچ خودشان واکنش نشان می‌دهند.
+	document.querySelectorAll( '[data-card-toggle]' ).forEach( function ( input ) {
+		input.addEventListener( 'change', function () {
+			var card = input.closest( '[data-card]' );
+			card.classList.toggle( 'rk-card--on', input.checked );
+			card.classList.toggle( 'rk-card--off', ! input.checked );
+
+			var badge = card.querySelector( '.rk-badge' );
+			if ( badge && ! badge.classList.contains( 'rk-badge--warning' ) ) {
+				badge.textContent = input.checked ? 'فعال' : 'غیرفعال';
+				badge.classList.toggle( 'rk-badge--success', input.checked );
+			}
+		} );
+	} );
+</script>
+
+<script type="module">
+	// نگهبان فرم — مستقیم از src خوانده می‌شود، چون هیچ وابستگی‌ای ندارد.
+	import attachFormGuard from '../src/utils/formGuard.js';
+
+	const form = document.getElementById( 'vform' );
+	const out = document.getElementById( 'vform-out' );
+	const nav = document.getElementById( 'vtabs' );
+
+	const guard = attachFormGuard( form, {
+		sentinelName: 'rahkar_sentinel',
+		confirmLeave: false, // در صفحهٔ نمایشی مزاحم است
+		onDirtyChange: ( scopes ) => {
+			const names = guard.pendingNames();
+
+			out.textContent = names.length
+				? names.join( '\n' ) + '\nrahkar_sentinel'
+				: '— هنوز چیزی عوض نشده؛ POST خالی می‌رود —';
+
+			// نقطهٔ «ذخیره‌نشده» روی تب عمودی
+			nav.querySelectorAll( '[data-tab]' ).forEach( ( btn ) => {
+				const key = btn.getAttribute( 'data-tab' );
+				const has = scopes.includes( key );
+				let dot = btn.querySelector( '.rk-vtabs__dirty' );
+
+				if ( has && ! dot ) {
+					dot = document.createElement( 'span' );
+					dot.className = 'rk-vtabs__dirty';
+					dot.title = 'تغییر ذخیره‌نشده';
+					btn.appendChild( dot );
+				} else if ( ! has && dot && ! btn.hasAttribute( 'data-static-dirty' ) ) {
+					dot.remove();
+				}
+			} );
+		},
+	} );
+
+	window.rkGuard = guard; // برای آزمودن از کنسول
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/**
+ * Toolbar — نوار ابزار و فیلتر
+ *
+ * جایگزین `.rahkar-logfilters`. ردیفی از کنترل‌های کوتاه بالای جدول، با یک
+ * گروه که به لبهٔ مقابل چسبیده (جست‌وجو در یک سو، دکمه‌های عمل در سوی دیگر).
+ */
+
+.rk-toolbar {
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+	gap: var(--rk-space-15);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	margin-block-end: var(--rk-space-2);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+}
+
+/* نوار چسبیده به بالای جدول — بدون شعاع و حاشیهٔ پایین مشترک */
+.rk-toolbar--attached {
+	margin-block-end: var(--rk-space-0);
+	border-end-start-radius: var(--rk-radius-none);
+	border-end-end-radius: var(--rk-radius-none);
+	border-block-end: 0;
+}
+
+.rk-toolbar--attached + .rk-table-wrap {
+	border-start-start-radius: var(--rk-radius-none);
+	border-start-end-radius: var(--rk-radius-none);
+}
+
+/* هرچه بعد از این بیاید به لبهٔ مقابل رانده می‌شود */
+.rk-toolbar__spacer {
+	flex: 1 1 auto;
+}
+
+.rk-toolbar__group {
+	display: flex;
+	align-items: flex-end;
+	gap: var(--rk-space-1);
+}
+
+/* برچسب ریز بالای کنترل‌های نوار */
+.rk-toolbar__label {
+	display: block;
+	margin-block-end: var(--rk-space-05);
+	font-size: var(--rk-font-size-2xs);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-muted);
+}

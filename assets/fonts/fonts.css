@@ -1,0 +1,25 @@
+/**
+ * وزیرمتن — فونت متغیر (نسخهٔ ۳۳٫۰۰۳)
+ *
+ * یک فایل برای تمام وزن‌ها (۱۰۰ تا ۹۰۰). دیزاین سیستم فقط از سه وزن ۴۰۰، ۵۰۰ و
+ * ۷۰۰ استفاده می‌کند، ولی فونت متغیر هر سه را از همین یک فایل ۱۰۹ کیلوبایتی
+ * می‌دهد — کمتر از مجموع سه فایل ثابت (~۱۵۰ کیلوبایت) و با یک درخواست به‌جای سه‌تا.
+ *
+ * این فایل عمداً در باندل webpack نیست: بارگذارندهٔ PHP آن را فقط وقتی enqueue
+ * می‌کند که فایل woff2 واقعاً کنارش باشد؛ در غیر این صورت زنجیرهٔ جایگزینِ
+ * --rk-font-family (Segoe UI / Tahoma) کار می‌کند.
+ *
+ * نشانی نسبت به همین فایل است، پس پوشهٔ assets/fonts/ را دست‌نخورده جابه‌جا کنید.
+ *
+ * مجوز: SIL OFL 1.1 — متن کامل در OFL.txt کنار همین فایل.
+ */
+
+@font-face {
+	font-family: "Vazirmatn";
+	src:
+		url("./Vazirmatn-Variable.woff2") format("woff2 supports variations"),
+		url("./Vazirmatn-Variable.woff2") format("woff2-variations");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}

@@ -1,0 +1,92 @@
+/**
+ * FormRow — ردیف فرم
+ *
+ * جایگزین `<table class="form-table">` وردپرس. آن جدول برای چیدمان است نه
+ * داده، در موبایل بد می‌شکند، و عرض ستون برچسبش با `!important` بسته شده —
+ * یعنی توکن‌های ما به آن نمی‌رسند.
+ *
+ * اینجا grid دوستونی است که زیر عرض معین تک‌ستونی می‌شود.
+ */
+
+.rk-form {
+	display: block;
+}
+
+.rk-form-row {
+	display: grid;
+	grid-template-columns: var(--rk-form-label-width) minmax(0, 1fr);
+	gap: var(--rk-space-05) var(--rk-space-3);
+	align-items: start;
+	padding-block: var(--rk-space-2);
+	border-block-start:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+.rk-form-row:first-child {
+	border-block-start: 0;
+	padding-block-start: var(--rk-space-0);
+}
+
+.rk-form-row:last-child {
+	padding-block-end: var(--rk-space-0);
+}
+
+/* برچسب و کنترل زیر هم — برای ستون‌های باریک مثل بدنهٔ کارت یا مودال */
+.rk-form-row--stacked {
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--rk-space-05);
+}
+
+.rk-form-row__label {
+	display: block;
+	padding-block-start: var(--rk-space-1);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-form-row--stacked .rk-form-row__label {
+	padding-block-start: var(--rk-space-0);
+}
+
+.rk-form-row__required {
+	margin-inline-start: var(--rk-space-025);
+	color: var(--rk-color-error);
+}
+
+.rk-form-row__control {
+	min-width: 0;
+}
+
+/* راهنمای ردیف — زیر کنترل، نه زیر برچسب */
+.rk-form-row__help {
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-form-row__error {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-05);
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-error);
+}
+
+@media (max-width: 782px) {
+
+	.rk-form-row {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--rk-space-05);
+	}
+
+	.rk-form-row__label {
+		padding-block-start: var(--rk-space-0);
+	}
+}

@@ -1,0 +1,58 @@
+/**
+ * NumberField — ورودی عددی
+ *
+ * روی `TextControl` با ‎type="number"‎ سوار می‌شود، نه روی `NumberControl` —
+ * چون آن یکی هنوز زیر پیشوند `__experimental` است و امضایش بین نسخه‌ها عوض
+ * می‌شود. ظاهر از همان قواعد TextField می‌آید و اینجا فقط عرض، جهت و
+ * دکمه‌های افزایش/کاهش تنظیم می‌شوند.
+ */
+
+.rk-number {
+	display: block;
+	margin-block-end: var(--rk-space-2);
+}
+
+.rk-number:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+/* عدد همیشه چپ‌به‌راست است، حتی وسط متن فارسی */
+.rk-number .components-text-control__input,
+.rk-number .rk-number__input,
+.rk-number input[type="number"] {
+	width: var(--rk-number-width);
+	direction: ltr;
+	text-align: left;
+	font-variant-numeric: tabular-nums;
+}
+
+/* تمام‌عرض — وقتی داخل ستون باریک تنظیمات می‌نشیند */
+.rk-number--full .components-text-control__input,
+.rk-number--full .rk-number__input,
+.rk-number--full input[type="number"] {
+	width: 100%;
+}
+
+/* واحد کنار عدد: «روز»، «تومان»، «ثانیه» */
+.rk-number__row {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+}
+
+.rk-number__unit {
+	flex: 0 0 auto;
+	font-size: var(--rk-font-size-xs);
+	color: var(--rk-color-text-muted);
+	white-space: nowrap;
+}
+
+/* محدودهٔ مجاز — کنار راهنما، ریز و تک‌عرض */
+.rk-number__range {
+	margin-inline-start: var(--rk-space-05);
+	font-family: var(--rk-font-family-mono);
+	font-size: var(--rk-font-size-2xs);
+	color: var(--rk-color-text-muted);
+	direction: ltr;
+	unicode-bidi: isolate;
+}

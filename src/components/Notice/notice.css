@@ -1,0 +1,132 @@
+/**
+ * Notice — پیام درون‌صفحه‌ای
+ *
+ * روی `Notice` بستهٔ ‎@wordpress/components‎ سوار می‌شود (نقش‌های aria و دکمهٔ
+ * بستن از آنجا می‌آید). جایگزین `notice notice-success is-dismissible` وردپرس
+ * است؛ آن یکی حاشیهٔ رنگی ۴ پیکسلی و سایهٔ خودش را دارد که با این سیستم جور
+ * درنمی‌آید.
+ */
+
+.rk-notice.rk-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+	margin: var(--rk-space-0) var(--rk-space-0) var(--rk-space-2);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background-color: var(--rk-color-surface-sunken);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+
+	/* نوار وضعیت روی لبهٔ آغازین — همان الگوی کارت ماژول */
+	border-inline-start:
+		var(--rk-border-width-strong) solid
+		var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-none);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+}
+
+.rk-notice__glyph {
+	flex: 0 0 auto;
+	margin-block-start: var(--rk-space-025);
+}
+
+.rk-notice__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.rk-notice .components-notice__content,
+.rk-notice .rk-notice__content {
+	margin: var(--rk-space-0);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+}
+
+.rk-notice__title {
+	display: block;
+	margin: var(--rk-space-0) var(--rk-space-0) var(--rk-space-025);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-notice__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	margin-block-start: var(--rk-space-15);
+}
+
+.rk-notice .components-notice__dismiss,
+.rk-notice .rk-notice__dismiss {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--rk-space-3);
+	height: var(--rk-space-3);
+	min-width: auto;
+	padding: var(--rk-space-0);
+	background-color: transparent;
+	border: var(--rk-border-width) solid transparent;
+	border-radius: var(--rk-radius-sm);
+	color: var(--rk-color-text-muted);
+	cursor: pointer;
+}
+
+.rk-notice .components-notice__dismiss:hover,
+.rk-notice .rk-notice__dismiss:hover {
+	background-color: var(--rk-color-surface-hover);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-strong);
+}
+
+/* ---------- گونه‌ها ---------- */
+
+.rk-notice.rk-notice--success {
+	background-color: var(--rk-color-success-bg);
+	border-color: var(--rk-color-success-border);
+	border-inline-start-color: var(--rk-color-success);
+}
+
+.rk-notice.rk-notice--success .rk-notice__glyph,
+.rk-notice.rk-notice--success .rk-notice__title {
+	color: var(--rk-color-success);
+}
+
+.rk-notice.rk-notice--error {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error-border);
+	border-inline-start-color: var(--rk-color-error);
+}
+
+.rk-notice.rk-notice--error .rk-notice__glyph,
+.rk-notice.rk-notice--error .rk-notice__title {
+	color: var(--rk-color-error);
+}
+
+.rk-notice.rk-notice--warning {
+	background-color: var(--rk-color-warning-bg);
+	border-color: var(--rk-color-warning-border);
+	border-inline-start-color: var(--rk-color-warning);
+}
+
+.rk-notice.rk-notice--warning .rk-notice__glyph,
+.rk-notice.rk-notice--warning .rk-notice__title {
+	color: var(--rk-color-warning);
+}
+
+.rk-notice.rk-notice--info {
+	background-color: var(--rk-color-info-bg);
+	border-color: var(--rk-color-info-border);
+	border-inline-start-color: var(--rk-color-info);
+}
+
+.rk-notice.rk-notice--info .rk-notice__glyph,
+.rk-notice.rk-notice--info .rk-notice__title {
+	color: var(--rk-color-info);
+}

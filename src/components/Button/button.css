@@ -1,0 +1,163 @@
+/**
+ * Button — دکمه
+ *
+ * روی `Button` بستهٔ ‎@wordpress/components‎ سوار می‌شود و فقط ظاهرش بازنویسی
+ * می‌شود. کلاس ریشه عمداً دوبار نوشته شده (`.rk-button.rk-button`) تا بدون
+ * ‎!important‎ از قواعد ‎.components-button‎ پیشی بگیرد.
+ */
+
+.rk-button.rk-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--rk-space-1);
+	height: var(--rk-control-height-md);
+	min-height: var(--rk-control-height-md);
+	padding: var(--rk-space-0) var(--rk-control-padding-x);
+	border: var(--rk-border-width) solid transparent;
+	border-radius: var(--rk-radius-md);
+	box-shadow: var(--rk-shadow-xs);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		background-color var(--rk-duration-fast) var(--rk-easing),
+		border-color var(--rk-duration-fast) var(--rk-easing),
+		color var(--rk-duration-fast) var(--rk-easing);
+}
+
+/* ---------- اندازه‌ها ---------- */
+
+.rk-button.rk-button--sm {
+	height: var(--rk-control-height-sm);
+	min-height: var(--rk-control-height-sm);
+	padding: var(--rk-space-0) var(--rk-space-1);
+	font-size: var(--rk-font-size-xs);
+}
+
+.rk-button.rk-button--lg {
+	height: var(--rk-control-height-lg);
+	min-height: var(--rk-control-height-lg);
+	padding: var(--rk-space-0) var(--rk-space-2);
+	font-size: var(--rk-font-size-md);
+}
+
+/* ---------- حالت اصلی ---------- */
+
+.rk-button.rk-button--primary {
+	background-color: var(--rk-color-brand-700);
+	border-color: var(--rk-color-brand-800);
+	color: var(--rk-color-text-inverse);
+}
+
+.rk-button.rk-button--primary:hover:not(:disabled):not([aria-disabled="true"]) {
+	background-color: var(--rk-color-brand-800);
+	border-color: var(--rk-color-brand-900);
+	color: var(--rk-color-text-inverse);
+}
+
+.rk-button.rk-button--primary:active:not(:disabled):not([aria-disabled="true"]) {
+	background-color: var(--rk-color-brand-900);
+	box-shadow: var(--rk-shadow-inset);
+}
+
+/* ---------- حالت ثانویه ---------- */
+
+.rk-button.rk-button--secondary {
+	background-color: var(--rk-color-surface);
+	border-color: var(--rk-color-border-strong);
+	color: var(--rk-color-text);
+}
+
+.rk-button.rk-button--secondary:hover:not(:disabled):not([aria-disabled="true"]) {
+	background-color: var(--rk-color-surface-hover);
+	border-color: var(--rk-color-neutral-400);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-button.rk-button--secondary:active:not(:disabled):not([aria-disabled="true"]) {
+	background-color: var(--rk-color-surface-active);
+	box-shadow: var(--rk-shadow-inset);
+}
+
+/* ---------- حالت مخرب ---------- */
+
+.rk-button.rk-button--destructive {
+	background-color: var(--rk-color-error);
+	border-color: var(--rk-color-error-hover);
+	color: var(--rk-color-text-inverse);
+}
+
+.rk-button.rk-button--destructive:hover:not(:disabled):not([aria-disabled="true"]) {
+	background-color: var(--rk-color-error-hover);
+	border-color: var(--rk-color-error-hover);
+	color: var(--rk-color-text-inverse);
+}
+
+.rk-button.rk-button--destructive:active:not(:disabled):not([aria-disabled="true"]) {
+	box-shadow: var(--rk-shadow-inset);
+}
+
+/* ---------- حالت‌های مشترک ---------- */
+
+.rk-button.rk-button:disabled,
+.rk-button.rk-button[aria-disabled="true"] {
+	background-color: var(--rk-color-surface-disabled);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-disabled);
+	box-shadow: var(--rk-shadow-none);
+	cursor: not-allowed;
+}
+
+.rk-button.rk-button--full {
+	display: flex;
+	width: 100%;
+}
+
+/* حالت «در حال انجام» — بدون انیمیشن پرشی، فقط کم‌رنگ‌شدن و آیکون چرخان */
+.rk-button.rk-button--busy {
+	cursor: progress;
+}
+
+.rk-button.rk-button--busy .rk-icon {
+	animation: rk-spin 900ms linear infinite;
+}
+
+@keyframes rk-spin {
+
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.rk-button.rk-button--busy .rk-icon {
+		animation: none;
+	}
+}
+
+/* آیکون تنها — مربع، بدون پدینگ افقی اضافه */
+.rk-button.rk-button--icon-only {
+	width: var(--rk-control-height-md);
+	padding: var(--rk-space-0);
+}
+
+.rk-button.rk-button--icon-only.rk-button--sm {
+	width: var(--rk-control-height-sm);
+}
+
+.rk-button.rk-button--icon-only.rk-button--lg {
+	width: var(--rk-control-height-lg);
+}
+
+/* گروه دکمه — چسبیده، با درز یک‌پیکسلی مشترک */
+.rk-button-group {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+}

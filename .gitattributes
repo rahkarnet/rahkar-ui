@@ -1,0 +1,22 @@
+# پایان‌خط همه‌جا LF بماند.
+#
+# بدون این، گیت روی ویندوز فایل‌ها را با CRLF چک‌اوت می‌کند و prettier برای
+# هر خط یک خطای «Delete ␍» می‌دهد — یک بار در همین پروژه ۲۰۵ خطا داد.
+# `.editorconfig` هم همین را می‌گوید؛ این فایل تضمین می‌کند که گیت زیر آن نزند.
+* text=auto eol=lf
+
+# دودویی‌ها دست‌نخورده بمانند
+*.woff2 binary
+*.woff  binary
+*.png   binary
+*.jpg   binary
+*.ico   binary
+
+# SVG متن است، ولی باید LF بماند
+*.svg text eol=lf
+
+# در بایگانی توزیع لازم نیستند
+demo/        export-ignore
+scripts/     export-ignore
+.github/     export-ignore
+MIGRATION.md export-ignore

@@ -1,0 +1,82 @@
+/**
+ * StatTile — کاشی آمار
+ *
+ * جایگزین `.rahkar-logstat`. عدد بزرگ و برچسب کوچک، با یک نوار وضعیت روی
+ * لبهٔ آغازین که فقط وقتی رنگی می‌شود که واقعاً وضعیتی هست — کاشی «خوب»
+ * عمداً خنثی می‌ماند تا رنگ در صفحه تورم پیدا نکند و قرمزها به چشم بیایند.
+ */
+
+.rk-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(var(--rk-stat-min-width), 1fr));
+	gap: var(--rk-space-15);
+}
+
+.rk-stat {
+	position: relative;
+	display: block;
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+	overflow: hidden;
+}
+
+.rk-stat::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: var(--rk-border-width-strong);
+	background-color: var(--rk-color-border);
+}
+
+.rk-stat__value {
+	display: block;
+	font-size: var(--rk-font-size-2xl);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+	font-variant-numeric: tabular-nums;
+}
+
+.rk-stat__label {
+	display: block;
+	margin-block-start: var(--rk-space-05);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-stat__hint {
+	display: block;
+	margin-block-start: var(--rk-space-05);
+	font-size: var(--rk-font-size-2xs);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-stat--success::before {
+	background-color: var(--rk-color-success);
+}
+
+.rk-stat--warning::before {
+	background-color: var(--rk-color-warning);
+}
+
+.rk-stat--warning .rk-stat__value {
+	color: var(--rk-color-warning);
+}
+
+.rk-stat--error::before {
+	background-color: var(--rk-color-error);
+}
+
+.rk-stat--error .rk-stat__value {
+	color: var(--rk-color-error);
+}
+
+.rk-stat--brand::before {
+	background-color: var(--rk-color-brand-700);
+}

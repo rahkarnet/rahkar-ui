@@ -1,0 +1,94 @@
+/**
+ * Panel — بخش تنظیمات
+ *
+ * جایگزین `.rahkar-panel`. با کارت ماژول فرق دارد: کارت یک چیزِ قابل
+ * روشن/خاموش را نشان می‌دهد، پنل فقط گروهی از تنظیمات مرتبط را دور هم جمع
+ * می‌کند و سوییچ و نوار وضعیت ندارد.
+ */
+
+.rk-panel {
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+}
+
+.rk-panel + .rk-panel {
+	margin-block-start: var(--rk-space-3);
+}
+
+.rk-panel__header {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+	padding: var(--rk-space-2);
+	border-block-end:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+.rk-panel__heading {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.rk-panel__title {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	margin: var(--rk-space-0);
+	font-size: var(--rk-font-size-md);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-panel__description {
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-panel__aside {
+	flex: 0 0 auto;
+}
+
+.rk-panel__body {
+	padding: var(--rk-space-2);
+}
+
+.rk-panel__footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--rk-space-1);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background-color: var(--rk-color-surface-sunken);
+	border-block-start:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+/* زیربخش داخل پنل — سرتیتر کوچک بین گروه‌های فیلد */
+.rk-panel__section {
+	margin-block-start: var(--rk-space-3);
+	padding-block-start: var(--rk-space-2);
+	border-block-start:
+		var(--rk-border-width) solid
+		var(--rk-color-border-subtle);
+}
+
+.rk-panel__section:first-child {
+	margin-block-start: var(--rk-space-0);
+	padding-block-start: var(--rk-space-0);
+	border-block-start: 0;
+}
+
+.rk-panel__section-title {
+	margin: var(--rk-space-0) var(--rk-space-0) var(--rk-space-15);
+	font-size: var(--rk-font-size-sm);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}

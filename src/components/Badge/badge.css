@@ -1,0 +1,95 @@
+/**
+ * Badge — نشان وضعیت
+ *
+ * از `card.css` جدا شد چون فقط مال کارت نیست: نشان روشن/خاموش ماژول، سطح
+ * گزارش (خطا/هشدار/اطلاع/اشکال‌زدایی)، و نتیجهٔ بررسی سلامت — هر سه همین‌اند.
+ *
+ * عمداً کپسولی نیست و شعاع گوشه‌اش کوچک است؛ نشانِ گردِ رنگی بیشتر شبیه
+ * برچسب تبلیغاتی است تا نشانگر وضعیت در یک ابزار.
+ */
+
+.rk-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--rk-space-05);
+	height: var(--rk-space-3);
+	padding: var(--rk-space-0) var(--rk-space-1);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-sm);
+	background-color: var(--rk-color-neutral-50);
+	font-family: var(--rk-font-family);
+	font-size: var(--rk-font-size-2xs);
+	font-weight: var(--rk-font-weight-medium);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-muted);
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+/* نقطهٔ وضعیت — وقتی رنگِ تنها کافی نیست (کوررنگی، چاپ سیاه‌وسفید) */
+.rk-badge__dot {
+	flex: 0 0 auto;
+	width: var(--rk-space-05);
+	height: var(--rk-space-05);
+	border-radius: var(--rk-radius-full);
+	background-color: currentcolor;
+}
+
+.rk-badge--success {
+	background-color: var(--rk-color-success-bg);
+	border-color: var(--rk-color-success-border);
+	color: var(--rk-color-success);
+}
+
+.rk-badge--error {
+	background-color: var(--rk-color-error-bg);
+	border-color: var(--rk-color-error-border);
+	color: var(--rk-color-error);
+}
+
+.rk-badge--warning {
+	background-color: var(--rk-color-warning-bg);
+	border-color: var(--rk-color-warning-border);
+	color: var(--rk-color-warning);
+}
+
+.rk-badge--info {
+	background-color: var(--rk-color-info-bg);
+	border-color: var(--rk-color-info-border);
+	color: var(--rk-color-info);
+}
+
+.rk-badge--brand {
+	background-color: var(--rk-color-brand-50);
+	border-color: var(--rk-color-brand-100);
+	color: var(--rk-color-brand-700);
+}
+
+/*
+ * «بحرانی» از «خطا» جدا است: در گزارش‌ها سطح emergency باید از یک خطای
+ * معمولی متمایز باشد، وگرنه اپراتور در فهرست قرمزها دنبال مهم‌ترین می‌گردد.
+ */
+.rk-badge--critical {
+	background-color: var(--rk-color-error);
+	border-color: var(--rk-color-error-hover);
+	color: var(--rk-color-text-inverse);
+}
+
+/* خنثی و کم‌رنگ — برای «اشکال‌زدایی» و برچسب‌های بی‌اهمیت */
+.rk-badge--quiet {
+	background-color: transparent;
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-badge--sm {
+	height: var(--rk-space-2);
+	padding: var(--rk-space-0) var(--rk-space-05);
+}
+
+/* متن لاتین/عددی داخل نشان — نسخه، شناسه، کد وضعیت */
+.rk-badge--mono {
+	font-family: var(--rk-font-family-mono);
+	direction: ltr;
+	unicode-bidi: isolate;
+}

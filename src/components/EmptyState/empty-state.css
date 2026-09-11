@@ -1,0 +1,59 @@
+/**
+ * EmptyState — حالت خالی
+ *
+ * برای «هیچ ماژول روشنی وجود ندارد» و «گزارشی ثبت نشده». حالت خالی باید
+ * بگوید قدم بعدی چیست، نه فقط اینکه چیزی نیست.
+ */
+
+.rk-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: var(--rk-space-6) var(--rk-space-3);
+	background-color: var(--rk-color-surface);
+	border: var(--rk-border-width) dashed var(--rk-color-border-strong);
+	border-radius: var(--rk-radius-lg);
+}
+
+.rk-empty--inset {
+	background-color: var(--rk-color-surface-sunken);
+	border-style: solid;
+	border-color: var(--rk-color-border);
+}
+
+.rk-empty__glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--rk-space-6);
+	height: var(--rk-space-6);
+	margin-block-end: var(--rk-space-2);
+	background-color: var(--rk-color-surface-sunken);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-empty__title {
+	margin: var(--rk-space-0);
+	font-size: var(--rk-font-size-md);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-empty__description {
+	max-width: var(--rk-empty-text-width);
+	margin: var(--rk-space-1) var(--rk-space-0) var(--rk-space-0);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-empty__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	margin-block-start: var(--rk-space-3);
+}

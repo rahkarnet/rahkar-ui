@@ -1,0 +1,246 @@
+/**
+ * rahkar-ui — توکن‌های طراحی
+ *
+ * تمام کامپوننت‌ها فقط از این متغیرها استفاده می‌کنند و هیچ مقدار دستی در
+ * فایل‌های کامپوننت وجود ندارد. برای شخصی‌سازی، کافی است این متغیرها را در
+ * سطح بالاتر (مثلاً `.wrap` صفحهٔ تنظیمات پلاگین) بازنویسی کنید.
+ *
+ * جهت بصری: ابزار دقیق و صنعتی — پالت محدود و پرکنتراست، گوشه‌های نیمه‌تیز،
+ * سایه‌های مسطح، بدون گرادیان و بدون افکت شیشه‌ای.
+ */
+
+:root {
+
+	/* ---------------------------------------------------------------------
+	 * ۱. رنگ برند — سبز عمیق راهکار
+	 * رنگ تأکید برند `--rk-color-brand-700` است؛ بقیهٔ پله‌ها با نگه‌داشتن
+	 * فام (hue 165°) و تغییر روشنایی/اشباع از آن مشتق شده‌اند.
+	 * pale-ترین پله عیناً همان accent-soft پالت برند است.
+	 * ------------------------------------------------------------------ */
+	--rk-color-brand-50: #e1f5ee;
+	--rk-color-brand-100: #c8eae1;
+	--rk-color-brand-200: #a1d9ca;
+	--rk-color-brand-300: #6fc3ae;
+	--rk-color-brand-400: #38a88c;
+	--rk-color-brand-500: #1e8a6f;
+	--rk-color-brand-600: #147d63;
+	--rk-color-brand-700: #0f6e56; /* رنگ تأکید برند */
+	--rk-color-brand-800: #0b5945;
+	--rk-color-brand-900: #073e30;
+
+	/* ---------------------------------------------------------------------
+	 * ۲. رنگ‌های خنثی — خاکستری گرم، هم‌خانوادهٔ متن و سطح برند
+	 * سه پلهٔ ۹۰۰، ۵۰۰ و ۴۰۰ و همچنین ۵۰ عیناً مقادیر پالت برند هستند.
+	 * ------------------------------------------------------------------ */
+	--rk-color-neutral-0: #fff;
+	--rk-color-neutral-25: #faf9f6;
+	--rk-color-neutral-50: #f5f4ef; /* سطح پس‌زمینهٔ برند */
+	--rk-color-neutral-100: #ebeae3;
+	--rk-color-neutral-200: #dedcd3;
+	--rk-color-neutral-300: #c5c3b9;
+	--rk-color-neutral-400: #9a9a95; /* text-faint برند */
+	--rk-color-neutral-500: #6b6b66; /* text-muted برند */
+	--rk-color-neutral-600: #54544f;
+	--rk-color-neutral-700: #3d3d39;
+	--rk-color-neutral-800: #2a2a27;
+	--rk-color-neutral-900: #1a1a18; /* text برند */
+
+	/* ---------------------------------------------------------------------
+	 * ۳. رنگ‌های وضعیتی — هرکدام سه پله: متن/آیکون، پس‌زمینه، حاشیه
+	 *
+	 * «موفق» عمداً سبزِ برگی (فام ۱۲۲°) است نه سبزِ برند (۱۶۵°)؛ ۴۳ درجه
+	 * فاصله دارند تا نشان «فعال» با تأکید برند اشتباه گرفته نشود.
+	 * ------------------------------------------------------------------ */
+	--rk-color-success: #2f7d32;
+	--rk-color-success-bg: #eaf3ea;
+	--rk-color-success-border: #b3d3b4;
+
+	--rk-color-error: #b42318;
+	--rk-color-error-bg: #fdecea;
+	--rk-color-error-border: #f2b0a9;
+	--rk-color-error-hover: #96190f;
+
+	--rk-color-warning: #a75d06;
+	--rk-color-warning-bg: #fdf3e4;
+	--rk-color-warning-border: #eecb96;
+
+	--rk-color-info: #1f5fa8;
+	--rk-color-info-bg: #e9f1fa;
+	--rk-color-info-border: #aecdea;
+
+	/* ---------------------------------------------------------------------
+	 * ۴. نقش‌های معنایی — کامپوننت‌ها از این‌ها استفاده می‌کنند، نه از پله‌های خام
+	 * ------------------------------------------------------------------ */
+	--rk-color-surface: var(--rk-color-neutral-0);
+	--rk-color-surface-sunken: var(--rk-color-neutral-50);
+	--rk-color-surface-raised: var(--rk-color-neutral-0);
+	--rk-color-surface-hover: var(--rk-color-neutral-50);
+	--rk-color-surface-active: var(--rk-color-neutral-100);
+	--rk-color-surface-disabled: var(--rk-color-neutral-50);
+
+	/* پالت برند یک رنگ متن دارد، پس text و text-strong عمداً هم‌مقدارند.
+	   اگر بعداً دو سطح خواستید، فقط همین دو خط عوض می‌شود. */
+	--rk-color-text: var(--rk-color-neutral-900);
+	--rk-color-text-strong: var(--rk-color-neutral-900);
+	--rk-color-text-muted: var(--rk-color-neutral-500);
+	--rk-color-text-inverse: var(--rk-color-neutral-0);
+	--rk-color-text-disabled: var(--rk-color-neutral-400);
+	--rk-color-text-brand: var(--rk-color-brand-700);
+
+	/* حاشیه‌ها مثل پالت برند شفاف‌اند نه مات:
+	   روی هر پس‌زمینه‌ای درست می‌نشینند. */
+	--rk-color-border: rgba(26, 26, 24, 0.12);
+	--rk-color-border-subtle: rgba(26, 26, 24, 0.07);
+	--rk-color-border-strong: rgba(26, 26, 24, 0.22);
+	--rk-color-border-brand: var(--rk-color-brand-700);
+
+	--rk-color-focus: var(--rk-color-brand-600);
+	--rk-color-focus-ring: rgba(15, 110, 86, 0.28);
+	--rk-color-overlay: rgba(26, 26, 24, 0.55);
+
+	/* ---------------------------------------------------------------------
+	 * ۵. تایپوگرافی — وزیرمتن با سه وزن (۴۰۰ / ۵۰۰ / ۷۰۰)
+	 * ------------------------------------------------------------------ */
+	--rk-font-family:
+		"Vazirmatn",
+		"Vazirmatn RD",
+		-apple-system,
+		"Segoe UI",
+		"Tahoma",
+		"Iranian Sans",
+		sans-serif;
+	--rk-font-family-mono:
+		"Vazirmatn Code",
+		ui-monospace,
+		"Cascadia Mono",
+		"Consolas",
+		monospace;
+
+	--rk-font-weight-regular: 400;
+	--rk-font-weight-medium: 500;
+	--rk-font-weight-bold: 700;
+
+	/* مقیاس اندازه — فشرده و مناسب چگالی بالای پیشخوان */
+	--rk-font-size-2xs: 11px;
+	--rk-font-size-xs: 12px;
+	--rk-font-size-sm: 13px;
+	--rk-font-size-md: 14px;
+	--rk-font-size-lg: 16px;
+	--rk-font-size-xl: 18px;
+	--rk-font-size-2xl: 22px;
+	--rk-font-size-3xl: 28px;
+
+	--rk-line-height-tight: 1.35;
+	--rk-line-height-normal: 1.7;
+	--rk-line-height-loose: 1.9;
+
+	/* فارسی با فاصلهٔ حروف منفی بدجور به‌هم می‌ریزد؛ صفر بماند. */
+	--rk-letter-spacing: 0;
+	--rk-letter-spacing-caps: 0.04em; /* فقط برای متن لاتین/عدد در برچسب‌ها */
+
+	/* ---------------------------------------------------------------------
+	 * ۶. فاصله‌گذاری — مقیاس ۸ پیکسلی (با دو نیم‌پله برای جزئیات)
+	 * ------------------------------------------------------------------ */
+	--rk-space-0: 0;
+	--rk-space-025: 2px;
+	--rk-space-05: 4px;
+	--rk-space-1: 8px;
+	--rk-space-15: 12px;
+	--rk-space-2: 16px;
+	--rk-space-3: 24px;
+	--rk-space-4: 32px;
+	--rk-space-5: 40px;
+	--rk-space-6: 48px;
+	--rk-space-8: 64px;
+	--rk-space-10: 80px;
+
+	/* ---------------------------------------------------------------------
+	 * ۷. شعاع گوشه — کوچک و ثابت؛ عمداً «نیمه‌تیز» است.
+	 * ------------------------------------------------------------------ */
+	--rk-radius-none: 0;
+	--rk-radius-sm: 2px;
+	--rk-radius-md: 3px;
+	--rk-radius-lg: 4px;
+	--rk-radius-full: 999px; /* فقط برای نشانگرهای نقطه‌ای و شمارنده‌ها */
+
+	/* ---------------------------------------------------------------------
+	 * ۸. حاشیه و سایه — سایه‌ها مسطح، کم‌رنگ و تک‌لایه
+	 * ------------------------------------------------------------------ */
+	--rk-border-width: 1px;
+	--rk-border-width-strong: 2px;
+
+	--rk-shadow-none: none;
+	--rk-shadow-xs: 0 1px 0 0 rgba(26, 26, 24, 0.05);
+	--rk-shadow-sm: 0 1px 2px 0 rgba(26, 26, 24, 0.07);
+	--rk-shadow-md: 0 2px 6px -2px rgba(26, 26, 24, 0.12);
+	--rk-shadow-lg: 0 8px 24px -8px rgba(26, 26, 24, 0.18);
+	--rk-shadow-inset: inset 0 1px 0 0 rgba(26, 26, 24, 0.04);
+	--rk-shadow-focus: 0 0 0 3px var(--rk-color-focus-ring);
+	--rk-shadow-focus-error: 0 0 0 3px var(--rk-color-error-border);
+
+	/* ---------------------------------------------------------------------
+	 * ۹. ابعاد کنترل‌ها — ارتفاع یکسان برای دکمه/فیلد/سوییچ
+	 * ------------------------------------------------------------------ */
+	--rk-control-height-sm: 28px;
+	--rk-control-height-md: 34px;
+	--rk-control-height-lg: 40px;
+	--rk-control-padding-x: var(--rk-space-15);
+	--rk-icon-size-sm: 14px;
+	--rk-icon-size-md: 16px;
+	--rk-icon-size-lg: 20px;
+	--rk-icon-stroke: 1.75; /* آیکون‌ها عمداً نازک نیستند */
+
+	/* سوییچ — مستطیلی و صنعتی، نه کپسولی */
+	--rk-toggle-width: 40px;
+	--rk-toggle-height: 22px;
+	--rk-toggle-thumb-size: 16px;
+	--rk-toggle-inset: 2px;
+	--rk-toggle-span: calc(var(--rk-toggle-width) - var(--rk-toggle-inset));
+	--rk-toggle-travel: calc(var(--rk-toggle-span) - var(--rk-toggle-thumb-size));
+
+	/* کمینهٔ عرض کارت ماژول در شبکه */
+	--rk-card-min-width: 320px;
+
+	/* کمینهٔ عرض کاشی آمار و بیشینهٔ عرض متن حالت خالی */
+	--rk-stat-min-width: 160px;
+	--rk-empty-text-width: 380px;
+
+	/* تب عمودی — عرض ستون ناوبری و فاصله از بالا هنگام چسبیدن
+	   (۳۲ پیکسل = ارتفاع نوار مدیریت وردپرس) */
+	--rk-vtabs-width: 220px;
+	--rk-vtabs-sticky-top: 52px;
+
+	/* فرم — عرض ستون برچسب و عرض ورودی عددی */
+	--rk-form-label-width: 200px;
+	--rk-number-width: 120px;
+
+	/* مودال — سه عرض ثابت، نه درصدی */
+	--rk-modal-width-sm: 400px;
+	--rk-modal-width-md: 560px;
+	--rk-modal-width-lg: 760px;
+
+	/* ---------------------------------------------------------------------
+	 * ۱۰. حرکت و لایه‌بندی — کوتاه و خطی؛ بدون فنر و پرش
+	 * ------------------------------------------------------------------ */
+	--rk-duration-instant: 60ms;
+	--rk-duration-fast: 120ms;
+	--rk-duration-normal: 180ms;
+	--rk-easing: cubic-bezier(0.2, 0, 0.2, 1);
+
+	--rk-z-base: 1;
+	--rk-z-sticky: 10;
+	--rk-z-dropdown: 100;
+	--rk-z-overlay: 1000;
+	--rk-z-modal: 1010;
+	--rk-z-toast: 1020;
+}
+
+/* کاهش حرکت برای کاربرانی که آن را غیرفعال کرده‌اند */
+@media (prefers-reduced-motion: reduce) {
+
+	:root {
+		--rk-duration-instant: 0ms;
+		--rk-duration-fast: 0ms;
+		--rk-duration-normal: 0ms;
+	}
+}

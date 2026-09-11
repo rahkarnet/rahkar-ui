@@ -1,0 +1,29 @@
+/**
+ * Icon — آیکون
+ * اندازه از توکن می‌آید و رنگ از `currentColor` ارث می‌برد.
+ */
+
+.rk-icon {
+	display: inline-block;
+	flex: 0 0 auto;
+	width: var(--rk-icon-size-md);
+	height: var(--rk-icon-size-md);
+	vertical-align: middle;
+	color: inherit;
+	pointer-events: none;
+}
+
+.rk-icon--sm {
+	width: var(--rk-icon-size-sm);
+	height: var(--rk-icon-size-sm);
+}
+
+.rk-icon--lg {
+	width: var(--rk-icon-size-lg);
+	height: var(--rk-icon-size-lg);
+}
+
+/* آیکون‌ها در RTL آینه نمی‌شوند، مگر جهت‌دارها که در JS نامشان عوض می‌شود */
+.rk-icon--flip {
+	transform: scaleX(-1);
+}

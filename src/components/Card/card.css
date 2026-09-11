@@ -1,0 +1,214 @@
+/**
+ * Card — کارت ماژول
+ *
+ * روی `Card` بستهٔ ‎@wordpress/components‎ سوار می‌شود. الگوی هدف، کارت‌های
+ * ماژول در صفحهٔ تنظیمات پلاگین است: عنوان + توضیح + سوییچ روشن/خاموش، و
+ * یک نوار وضعیت باریک روی لبهٔ آغازین که فعال‌بودن ماژول را از دور نشان می‌دهد.
+ */
+
+.rk-card.rk-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--rk-color-surface-raised);
+	border: var(--rk-border-width) solid var(--rk-color-border);
+	border-radius: var(--rk-radius-lg);
+	box-shadow: var(--rk-shadow-xs);
+	overflow: hidden;
+	transition:
+		border-color var(--rk-duration-fast) var(--rk-easing),
+		box-shadow var(--rk-duration-fast) var(--rk-easing);
+}
+
+/* نوار وضعیت روی لبهٔ آغازین (در RTL: سمت راست) */
+.rk-card.rk-card::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: var(--rk-border-width-strong);
+	background-color: var(--rk-color-border);
+	transition: background-color var(--rk-duration-fast) var(--rk-easing);
+}
+
+.rk-card.rk-card--on::before {
+	background-color: var(--rk-color-brand-700);
+}
+
+.rk-card.rk-card--on {
+	border-color: var(--rk-color-border-strong);
+}
+
+.rk-card.rk-card--off {
+	background-color: var(--rk-color-surface-sunken);
+}
+
+/*
+ * حالت سوم: ماژول پیش‌نیاز برآورده‌نشده دارد.
+ * این «خاموش» نیست، «قابل روشن‌کردن نیست» است — و باید از خاموش فرق کند،
+ * وگرنه کاربر سوییچ غیرفعال را می‌بیند و دلیلش را نه.
+ */
+.rk-card.rk-card--blocked {
+	background-color: var(--rk-color-surface-sunken);
+	border-style: dashed;
+}
+
+.rk-card.rk-card--blocked::before {
+	background-color: var(--rk-color-warning);
+}
+
+/* فهرست پیش‌نیازهای برآورده‌نشده */
+.rk-card__blockers {
+	margin: var(--rk-space-15) var(--rk-space-0) var(--rk-space-0);
+	padding: var(--rk-space-1) var(--rk-space-15);
+	background-color: var(--rk-color-warning-bg);
+	border: var(--rk-border-width) solid var(--rk-color-warning-border);
+	border-radius: var(--rk-radius-sm);
+	list-style: none;
+}
+
+.rk-card__blocker {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-05);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-warning);
+}
+
+.rk-card__blocker + .rk-card__blocker {
+	margin-block-start: var(--rk-space-05);
+}
+
+.rk-card__blocker .rk-icon {
+	margin-block-start: var(--rk-space-025);
+}
+
+.rk-card.rk-card--interactive:hover {
+	border-color: var(--rk-color-border-strong);
+	box-shadow: var(--rk-shadow-sm);
+}
+
+/* ---------- سربرگ ---------- */
+
+.rk-card__header.rk-card__header {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--rk-space-15);
+	padding: var(--rk-space-2);
+	background-color: transparent;
+	border: 0;
+	border-block-end: var(--rk-border-width) solid var(--rk-color-border-subtle);
+}
+
+.rk-card--off .rk-card__header {
+	border-block-end-color: var(--rk-color-border-subtle);
+}
+
+/* قاب آیکون ماژول */
+.rk-card__glyph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: var(--rk-control-height-md);
+	height: var(--rk-control-height-md);
+	background-color: var(--rk-color-brand-50);
+	border: var(--rk-border-width) solid var(--rk-color-brand-100);
+	border-radius: var(--rk-radius-md);
+	color: var(--rk-color-brand-700);
+}
+
+.rk-card--off .rk-card__glyph {
+	background-color: var(--rk-color-neutral-100);
+	border-color: var(--rk-color-border);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-card--blocked .rk-card__glyph {
+	background-color: var(--rk-color-warning-bg);
+	border-color: var(--rk-color-warning-border);
+	color: var(--rk-color-warning);
+}
+
+
+.rk-card__heading {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.rk-card__title {
+	display: flex;
+	align-items: center;
+	gap: var(--rk-space-1);
+	margin: var(--rk-space-0);
+	font-size: var(--rk-font-size-md);
+	font-weight: var(--rk-font-weight-bold);
+	line-height: var(--rk-line-height-tight);
+	color: var(--rk-color-text-strong);
+}
+
+.rk-card--off .rk-card__title {
+	color: var(--rk-color-text-muted);
+}
+
+.rk-card__description {
+	margin: var(--rk-space-05) var(--rk-space-0) var(--rk-space-0);
+	font-size: var(--rk-font-size-xs);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text-muted);
+}
+
+.rk-card__control {
+	flex: 0 0 auto;
+	padding-block-start: var(--rk-space-025);
+}
+
+/* ---------- بدنه ---------- */
+
+.rk-card__body.rk-card__body {
+	flex: 1 1 auto;
+	padding: var(--rk-space-2);
+	font-size: var(--rk-font-size-sm);
+	line-height: var(--rk-line-height-normal);
+	color: var(--rk-color-text);
+}
+
+/* وقتی ماژول خاموش یا مسدود است، تنظیماتش کم‌رنگ می‌شود ولی پنهان نمی‌شود */
+.rk-card--off .rk-card__body,
+.rk-card--blocked .rk-card__body {
+	opacity: 0.6;
+}
+
+.rk-card__body > *:first-child {
+	margin-block-start: var(--rk-space-0);
+}
+
+.rk-card__body > *:last-child {
+	margin-block-end: var(--rk-space-0);
+}
+
+/* ---------- پاورقی ---------- */
+
+.rk-card__footer.rk-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--rk-space-1);
+	padding: var(--rk-space-15) var(--rk-space-2);
+	background-color: var(--rk-color-surface-sunken);
+	border: 0;
+	border-block-start: var(--rk-border-width) solid var(--rk-color-border-subtle);
+}
+
+.rk-card__footer--between.rk-card__footer--between {
+	justify-content: space-between;
+}
+
+/* ---------- شبکهٔ کارت‌ها ---------- */
+
+.rk-card-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(var(--rk-card-min-width), 1fr));
+	gap: var(--rk-space-2);
+}
