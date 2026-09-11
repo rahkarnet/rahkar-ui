@@ -50,6 +50,12 @@ module.exports = {
 			library: {
 				name: [ 'rahkarUI', 'formGuard' ],
 				type: 'window',
+				// بدون این، فضای‌نام ماژول روی سراسری می‌نشیند نه خود تابع:
+				// `window.rahkarUI.formGuard` می‌شود `{ default: fn }` و
+				// صدا زدنش TypeError می‌دهد. عمداً فقط روی این entry است —
+				// `index` چند اکسپورت نام‌دار دارد و فضای‌نام‌بودنش درست است،
+				// ولی این یکی فقط یک default دارد.
+				export: 'default',
 			},
 		},
 	},

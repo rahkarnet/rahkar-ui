@@ -24,6 +24,7 @@
 const fs = require( 'fs' );
 const path = require( 'path' );
 const crypto = require( 'crypto' );
+const vm = require( 'vm' );
 
 const root = path.resolve( __dirname, '..' );
 const buildDir = path.join( root, 'build' );
@@ -110,6 +111,39 @@ if ( guardAsset && guardAsset.dependencies.length > 0 ) {
 	);
 }
 
+/*
+ * شکل سراسریِ form-guard.
+ *
+ * این همان چیزی است که بی‌صدا خراب می‌شود. اگر `library.export` جا بیفتد،
+ * webpack فضای‌نام ماژول را روی سراسری می‌گذارد و
+ * `window.rahkarUI.formGuard` می‌شود `{ default: fn }` — بیلد موفق، فایل
+ * سر جایش، وابستگی‌ها خالی، و صدا زدنش TypeError. یک بار همین اتفاق افتاد و
+ * نگهبان در پیشخوان واقعی وصل نشد.
+ *
+ * پس به‌جای اعتماد به پیکربندی، باندل ساخته‌شده اجرا و شکلش سنجیده می‌شود.
+ */
+const guardBundle = path.join( buildDir, 'form-guard.js' );
+
+if ( fs.existsSync( guardBundle ) ) {
+	const sandbox = { window: {} };
+
+	try {
+		vm.runInNewContext( fs.readFileSync( guardBundle, 'utf8' ), sandbox );
+	} catch ( error ) {
+		fail( `اجرای form-guard.js شکست خورد: ${ error.message }` );
+	}
+
+	const exposed = ( sandbox.window.rahkarUI || {} ).formGuard;
+
+	if ( typeof exposed !== 'function' ) {
+		fail(
+			'window.rahkarUI.formGuard باید تابع باشد ولی ' +
+				`${ typeof exposed } است. ` +
+				"احتمالاً `library.export: 'default'` از entry افتاده."
+		);
+	}
+}
+
 const components = fs
 	.readdirSync( path.join( root, 'src/components' ), { withFileTypes: true } )
 	.filter( ( e ) => e.isDirectory() )
@@ -153,5 +187,5 @@ fs.writeFileSync(
 console.log(
 	`rahkar-ui: نسخهٔ ${ pkg.version } ساخته شد — ` +
 		`${ components.length } کامپوننت، هش ${ assetVersion }. ` +
-		'form-guard بدون وابستگی است.'
+		'form-guard بدون وابستگی و تابع است.'
 );

@@ -59,4 +59,4 @@ export { default as cx } from './utils/cx';
 export { default as attachFormGuard } from './utils/formGuard';
 
 /** نسخهٔ پکیج — باید با `package.json` و ثابت PHP یکی بماند. */
-export const VERSION = '0.3.0';
+export const VERSION = '0.3.1';

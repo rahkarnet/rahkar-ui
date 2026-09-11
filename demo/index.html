@@ -1277,7 +1277,11 @@
 </script>
 
 <script type="module">
-	// نگهبان فرم — مستقیم از src خوانده می‌شود، چون هیچ وابستگی‌ای ندارد.
+	// نگهبان فرم — مستقیم از src خوانده می‌شود تا این صفحه به build نیاز نداشته
+	// باشد. پس این صفحه شکلِ سراسریِ باندل ساخته‌شده
+	// (`window.rahkarUI.formGuard`) را نمی‌آزماید — یک بار همان شکل بی‌صدا
+	// شکست و اینجا معلوم نشد. سنجشش در scripts/copy-assets.js است که روی هر
+	// build اجرا می‌شود و باندل واقعی را اجرا و شکلش را بررسی می‌کند.
 	import attachFormGuard from '../src/utils/formGuard.js';
 
 	const form = document.getElementById( 'vform' );
